@@ -46,6 +46,7 @@ router.get("/", requireAuth, async (req, res) => {
             phone: c.phone,
             score: includeScore ? c.relevanceScore || 0 : null,
             status: c.status,
+<<<<<<< HEAD
             // Keep friendly fields for the list view
             uploadDate: c.createdAt?.toISOString().split("T")[0],
             jobTitle: c.jobId?.title,
@@ -53,6 +54,10 @@ router.get("/", requireAuth, async (req, res) => {
             // the list doesn't show missing data (createdAt and jobId).
             createdAt: c.createdAt,
             jobId: c.jobId,
+=======
+            uploadDate: c.createdAt.toISOString().split("T")[0],
+            jobTitle: c.jobId?.title,
+>>>>>>> 849ca21 (restore full project with proper package.json file structure)
             strengths: c.strengths,
             weaknesses: c.weaknesses,
             feedback: c.feedback,
@@ -163,6 +168,7 @@ router.patch("/:id/evaluate", requireAuth, async (req, res) => {
         candidate.weaknesses = weaknesses ?? candidate.weaknesses;
         candidate.feedback = feedback ?? candidate.feedback;
 
+<<<<<<< HEAD
         if (typeof relevanceScore === "number" && candidate.status === "pending") {
             // load job thresholds (fall back to defaults)
             let shortlistThreshold = 75;
@@ -187,6 +193,8 @@ router.patch("/:id/evaluate", requireAuth, async (req, res) => {
             else candidate.status = "reviewed";
         }
 
+=======
+>>>>>>> 849ca21 (restore full project with proper package.json file structure)
         await candidate.save();
         const includeScore = canViewScore(req.user);
         const response = {
@@ -235,4 +243,8 @@ router.delete("/:id", requireAuth, requireRole(["admin"]), async (req, res) => {
     }
 });
 
+<<<<<<< HEAD
 export default router;
+=======
+export default router;
+>>>>>>> 849ca21 (restore full project with proper package.json file structure)

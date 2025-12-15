@@ -1,9 +1,16 @@
+<<<<<<< HEAD
+=======
+// backend/routes/ml.js
+>>>>>>> 849ca21 (restore full project with proper package.json file structure)
 import express from "express";
 import multer from "multer";
 import axios from "axios";
 import fs from "fs";
 import FormData from "form-data";
+<<<<<<< HEAD
 
+=======
+>>>>>>> 849ca21 (restore full project with proper package.json file structure)
 import Candidate from "../models/Candidate.js";
 import Job from "../models/Job.js";
 import requireAuth from "../middleware/auth.js";
@@ -15,6 +22,7 @@ const upload = multer({ dest: "temp/" });
 router.post(
     "/evaluate-cv",
     requireAuth,
+<<<<<<< HEAD
     requireRole(["admin", "recruiter", "hiring_manager"]),
     upload.single("cv"),
     async (req, res) => {
@@ -101,11 +109,56 @@ ${job.description}
                 headers: {
                     ...formData.getHeaders(), // Spread headers ensures boundaries are set correctly
                 },
+=======
+    requireRole(["admin", "recruiter", "hiring_manager"]), // allow relevant roles
+    upload.single("cv"),
+    async (req, res) => {
+        const cvFile = req.file;
+        const { job_id, jd_text, email: candidateEmailFromInput } = req.body;
+
+        if (!cvFile || !job_id || !jd_text) {
+            // delete temp file if present
+            if (cvFile && fs.existsSync(cvFile.path)) fs.unlinkSync(cvFile.path);
+            return res.status(400).json({ message: "Missing required data" });
+        }
+
+        try {
+            const job = await Job.findById(job_id);
+            if (!job) {
+                if (fs.existsSync(cvFile.path)) fs.unlinkSync(cvFile.path);
+                return res.status(404).json({ message: "Job not found" });
+            }
+
+            if (req.user.role !== "admin") {
+                if (!req.user?.companyId) {
+                    if (fs.existsSync(cvFile.path)) fs.unlinkSync(cvFile.path);
+                    return res.status(403).json({ message: "Missing company scope" });
+                }
+                if (job.companyId?.toString() !== req.user.companyId?.toString()) {
+                    if (fs.existsSync(cvFile.path)) fs.unlinkSync(cvFile.path);
+                    return res
+                        .status(403)
+                        .json({ message: "You cannot evaluate CVs for jobs outside your company" });
+                }
+            }
+
+            // Prepare data to send to ML server
+            const formData = new FormData();
+            formData.append("cv", fs.createReadStream(cvFile.path));
+            formData.append("job_id", job_id);
+            formData.append("jd_text", jd_text);
+            formData.append("job_title", job.title || "");
+            formData.append("email", candidateEmailFromInput || "");
+
+            const mlResponse = await axios.post("http://localhost:8000/api/evaluate-cv", {
+                headers: formData.getHeaders(),
+>>>>>>> 849ca21 (restore full project with proper package.json file structure)
                 timeout: 60_000,
             });
 
             const result = mlResponse.data || {};
 
+<<<<<<< HEAD
             const mlScore = typeof result.score === "number" ? result.score : null;
             let derivedStatus = result.status || "pending";
             if (mlScore !== null && (!result.status || result.status === "pending")) {
@@ -147,15 +200,29 @@ ${job.description}
                 relevanceScore: mlScore !== null ? mlScore : undefined,
                 score: mlScore ?? null,
                 status: derivedStatus,
+=======
+            const candidate = await Candidate.create({
+                name: result.name || result.candidate_name || "Unknown",
+                email: result.email || candidateEmailFromInput || null,
+                relevanceScore: result.score ?? result.relevanceScore ?? 0,
+                status: result.status || "pending",
+>>>>>>> 849ca21 (restore full project with proper package.json file structure)
                 strengths: result.strengths || [],
                 weaknesses: result.weaknesses || [],
                 feedback: result.feedback || "",
                 jobId: job_id,
+<<<<<<< HEAD
                 companyId: resolvedCompanyId,
+=======
+
+                companyId: req.user.companyId ?? job.companyId ?? null,
+                cvId: null, // if you later save a CV doc, update this
+>>>>>>> 849ca21 (restore full project with proper package.json file structure)
             });
 
             await Job.findByIdAndUpdate(job_id, { $inc: { cvCount: 1 } });
 
+<<<<<<< HEAD
             // Populate job info so frontend can show job title/role when inserting
             // the newly evaluated candidate into a list without an extra fetch.
             const candidate = await Candidate.findById(created._id).populate(
@@ -163,12 +230,16 @@ ${job.description}
                 "title department"
             );
 
+=======
+            // respond
+>>>>>>> 849ca21 (restore full project with proper package.json file structure)
             res.json({
                 message: "CV evaluated successfully",
                 candidate,
                 mlResult: result,
             });
         } catch (err) {
+<<<<<<< HEAD
             // 🔥 IMPORTANT: LOG EXACT FASTAPI ERROR
             if (err.response) {
                 console.error(
@@ -186,9 +257,26 @@ ${job.description}
         } finally {
             if (cvFile?.path && fs.existsSync(cvFile.path)) {
                 fs.unlinkSync(cvFile.path);
+=======
+            console.error("ML evaluate error:", err?.message || err);
+            return res
+                .status(500)
+                .json({ message: "ML evaluation failed", error: err?.message || String(err) });
+        } finally {
+            try {
+                if (cvFile?.path && fs.existsSync(cvFile.path)) {
+                    fs.unlinkSync(cvFile.path);
+                }
+            } catch (cleanupErr) {
+                console.warn("Failed to remove temp file:", cleanupErr?.message || cleanupErr);
+>>>>>>> 849ca21 (restore full project with proper package.json file structure)
             }
         }
     }
 );
 
+<<<<<<< HEAD
 export default router;
+=======
+export default router;
+>>>>>>> 849ca21 (restore full project with proper package.json file structure)

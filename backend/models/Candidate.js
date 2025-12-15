@@ -24,7 +24,11 @@ const candidateSchema = new mongoose.Schema(
         cvId: {
             type: mongoose.Schema.Types.ObjectId,
             ref: "CV",
+<<<<<<< HEAD
             default: null,
+=======
+            required: true,
+>>>>>>> 849ca21 (restore full project with proper package.json file structure)
         },
         extractedText: String,
 

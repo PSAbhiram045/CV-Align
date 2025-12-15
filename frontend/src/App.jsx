@@ -66,8 +66,11 @@ const App = () => {
         skills: "",
         experience: "",
         description: "",
+<<<<<<< HEAD
         shortlistThreshold: 75,
         rejectThreshold: 40,
+=======
+>>>>>>> 849ca21 (restore full project with proper package.json file structure)
     });
 
     // ✅ ADMIN CREATE USER STATE (ADDED)
@@ -177,6 +180,7 @@ const App = () => {
             return;
         }
 
+<<<<<<< HEAD
         // Validate experience is a number
         if (
             jobForm.experience === "" ||
@@ -197,6 +201,8 @@ const App = () => {
             return;
         }
 
+=======
+>>>>>>> 849ca21 (restore full project with proper package.json file structure)
         try {
             setLoading(true);
             const response = await authFetch(`${API_URL}/jobs`, {
@@ -204,9 +210,12 @@ const App = () => {
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({
                     ...jobForm,
+<<<<<<< HEAD
                     experience: Number(jobForm.experience),
                     shortlistThreshold: Number(jobForm.shortlistThreshold),
                     rejectThreshold: Number(jobForm.rejectThreshold),
+=======
+>>>>>>> 849ca21 (restore full project with proper package.json file structure)
                     skills: jobForm.skills
                         .split(",")
                         .map((s) => s.trim())
@@ -214,8 +223,11 @@ const App = () => {
                 }),
             });
 
+<<<<<<< HEAD
             const resBody = await response.json().catch(() => ({}));
 
+=======
+>>>>>>> 849ca21 (restore full project with proper package.json file structure)
             if (response.ok) {
                 showNotification("Job created successfully!", "success");
                 setJobForm({
@@ -224,6 +236,7 @@ const App = () => {
                     skills: "",
                     experience: "",
                     description: "",
+<<<<<<< HEAD
                     shortlistThreshold: 75,
                     rejectThreshold: 40,
                 });
@@ -231,6 +244,12 @@ const App = () => {
             } else {
                 console.error("Create job failed:", resBody);
                 showNotification(resBody.message || "Failed to create job", "error");
+=======
+                });
+                fetchJobs();
+            } else {
+                throw new Error("Failed to create job");
+>>>>>>> 849ca21 (restore full project with proper package.json file structure)
             }
         } catch (error) {
             console.error("Error creating job:", error);
@@ -327,6 +346,7 @@ const App = () => {
             const selectedJobObj = jobDescriptions.find((j) => j._id === uploadJob);
 
             const formData = new FormData();
+<<<<<<< HEAD
             formData.append("cv", selectedFiles[0]);
             formData.append("job_id", uploadJob);
             formData.append("job_title", selectedJobObj?.title || "");
@@ -352,6 +372,26 @@ const App = () => {
             setSelectedCandidate(data.candidate || data);
             setShowModal(true);
 
+=======
+            formData.append("cv", selectedFiles[0]); // ✅ FILE
+            formData.append("job_id", uploadJob); // ✅ JOB ID
+            formData.append("job_title", selectedJobObj?.title); // ✅ TITLE
+            formData.append("jd_text", selectedJobObj?.description || ""); // ✅ FULL JD
+            formData.append("email", candidateEmail); // ✅ EMAIL
+
+            const response = await fetch("http://localhost:8000/api/evaluate-cv", {
+                method: "POST",
+                body: formData,
+            });
+
+            if (!response.ok) throw new Error("ML Evaluation failed");
+
+            const data = await response.json();
+
+            showNotification("AI Evaluation Done ✅", "success");
+            setSelectedCandidate(data);
+            setShowModal(true);
+>>>>>>> 849ca21 (restore full project with proper package.json file structure)
             fetchCandidates();
 
             setSelectedFiles([]);
@@ -359,7 +399,11 @@ const App = () => {
             setCandidateEmail("");
         } catch (err) {
             console.error(err);
+<<<<<<< HEAD
             showNotification(err.message || "ML Evaluation failed", "error");
+=======
+            showNotification("ML Evaluation failed", "error");
+>>>>>>> 849ca21 (restore full project with proper package.json file structure)
         } finally {
             setUploading(false);
         }
@@ -737,6 +781,7 @@ const App = () => {
                             </div>
                             <div className="info-row">
                                 <strong>Upload Date:</strong>
+<<<<<<< HEAD
                                 <span>
                                     {selectedCandidate.createdAt
                                         ? new Date(selectedCandidate.createdAt).toLocaleDateString()
@@ -746,6 +791,13 @@ const App = () => {
                             <div className="info-row">
                                 <strong>Job Role:</strong>
                                 <span>{selectedCandidate.jobId?.title || "N/A"}</span>
+=======
+                                <span>{selectedCandidate.uploadDate}</span>
+                            </div>
+                            <div className="info-row">
+                                <strong>Job Role:</strong>
+                                <span>{selectedCandidate.jobTitle || "N/A"}</span>
+>>>>>>> 849ca21 (restore full project with proper package.json file structure)
                             </div>
                         </div>
 
@@ -832,6 +884,7 @@ const App = () => {
                     />
                 </div>
                 <div className="form-group">
+<<<<<<< HEAD
                     <label>Shortlist Threshold (%)</label>
                     <input
                         type="number"
@@ -856,6 +909,8 @@ const App = () => {
                     />
                 </div>
                 <div className="form-group">
+=======
+>>>>>>> 849ca21 (restore full project with proper package.json file structure)
                     <label>Job Description *</label>
                     <textarea
                         placeholder="Detailed job description..."
@@ -1335,4 +1390,8 @@ const App = () => {
     );
 };
 
+<<<<<<< HEAD
 export default App;
+=======
+export default App;
+>>>>>>> 849ca21 (restore full project with proper package.json file structure)
