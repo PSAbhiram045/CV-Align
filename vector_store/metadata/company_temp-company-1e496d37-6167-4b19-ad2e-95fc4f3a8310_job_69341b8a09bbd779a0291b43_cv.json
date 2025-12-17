@@ -1,0 +1,29 @@
+[
+  {
+    "company_id": "temp-company-1e496d37-6167-4b19-ad2e-95fc4f3a8310",
+    "job_id": "69341b8a09bbd779a0291b43",
+    "type": "CV",
+    "chunk_id": 0,
+    "created_at": 1765996617,
+    "embed_id": "91be9bab-5950-4c88-8020-62d3720c519e",
+    "snippet": "Srishti Murarka is pursuing a B.Tech in Electronics and Electrical Engineering at Indian Institute Of Technology, Guwahati (2021-Present), completed Senior Secondary at CBSE Board (2021) and Secondary at ICSE Board (2019). She is skilled in"
+  },
+  {
+    "company_id": "temp-company-1e496d37-6167-4b19-ad2e-95fc4f3a8310",
+    "job_id": "69341b8a09bbd779a0291b43",
+    "type": "CV",
+    "chunk_id": 1,
+    "created_at": 1765996617,
+    "embed_id": "7282c3c6-d73b-4256-917e-29bdc3dd5a76",
+    "snippet": "at Cepstrum from Jul 2023 \u2013 Present, Branch Representative of the EEE department from May 2022 \u2013 Jun 2023, and Core Team member for Lecture Series and Pronites at Techniche from Nov 2022 \u2013 Present. She has achieved notable rankings in natio"
+  },
+  {
+    "company_id": "temp-company-1e496d37-6167-4b19-ad2e-95fc4f3a8310",
+    "job_id": "69341b8a09bbd779a0291b43",
+    "type": "CV",
+    "chunk_id": 2,
+    "created_at": 1765996617,
+    "embed_id": "bb0d4902-93ff-4f52-bd14-c079a03be49a",
+    "snippet": "among 950K candidates."
+  }
+]

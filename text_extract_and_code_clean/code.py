@@ -5,7 +5,7 @@ from groq import Groq
 import json
 
 
-client = Groq(api_key="your_groq_api_key_here")
+client = Groq(api_key="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")
 
 
 # ---------------------------------------------------
@@ -122,11 +122,28 @@ RAW RESUME TEXT:
 
     return response.choices[0].message.content.strip()
 
+# ---------------------------------------------------
+# WRAPPER FUNCTION (USED BY ML PIPELINE)
+# ---------------------------------------------------
+
+def extract_and_clean_from_file(file_path: str) -> dict:
+    """
+    Extract CV text from local file and structure it.
+    Cloudinary is ONLY for storage, not extraction.
+    """
+    cv_text = extract_pdf(file_path)
+    result = extract_and_clean(cv_text)
+
+    try:
+        return json.loads(result)
+    except json.JSONDecodeError:
+        raise RuntimeError("Failed to parse CV JSON from LLM")
+
 
 # ---------------------------------------------------
 # MAIN
 # ---------------------------------------------------
-if __name__ == "__main__":
+"""if __name__ == "__main__":
 
     # Manikanta sends THIS link
     cloudinary_cv_url = "PASTE_MANIKANTA_CLOUDINARY_PDF_LINK_HERE"
@@ -138,4 +155,4 @@ if __name__ == "__main__":
         print(output_json)
 
     except Exception as e:
-        print("ERROR:", e)
+        print("ERROR:", e)"""

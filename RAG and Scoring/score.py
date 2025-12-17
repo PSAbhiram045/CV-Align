@@ -25,4 +25,4 @@ def compute_score(jd_embedding, cv_vectors):
         sims.append(sim)
 
     score = (sum(sims) / len(sims) + 1) / 2
-    return round(score, 3)
+    return round(score*100, 3)

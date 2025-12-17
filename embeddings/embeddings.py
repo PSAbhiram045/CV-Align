@@ -1,41 +1,45 @@
 # embeddings + vector DB implementation
 import os
-import json  # for output
-import time  # for timestamps
-import uuid  # for giving ids for embeddings
-from typing import Tuple, Dict, Any, List  # for conversions
+import json
+import time
+import uuid
+from typing import Tuple, Dict, Any, List
 
 import numpy as np
-from sentence_transformers import SentenceTransformer  # for loading model
-import faiss  # vector db
+from sentence_transformers import SentenceTransformer
+import faiss
 
 # loading model
 MODEL_NAME = "sentence-transformers/all-MiniLM-L6-v2"
 model = SentenceTransformer(MODEL_NAME)
 
 # storage destinations
-STORE_ROOT = "vector_store"  # main folder which stores all vector related data
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+STORE_ROOT = os.path.join(BASE_DIR, "vector_store")
 
 INDICES_DIR = os.path.join(STORE_ROOT, "indices")
 META_DIR = os.path.join(STORE_ROOT, "metadata")
 os.makedirs(INDICES_DIR, exist_ok=True)
 os.makedirs(META_DIR, exist_ok=True)
 
-# Given a company, job, and type (CV/JD), this determines the exact index file and metadata file paths used to store and retrieve that data.
 
+# PATH HELPERS
 
-def get_paths(company_id: int, job_id: int, data_type: str) -> Tuple[str, str]:
-    """ Build index and metadata paths for a (company, job, type) pair. 
-    data_type must be "CV" or "JD". """
+def get_paths(company_id: str, job_id: str, data_type: str) -> Tuple[str, str]:
+    """
+    Build index and metadata paths for a (company, job, type) pair.
+    data_type must be "CV" or "JD".
+    """
     assert data_type in ("CV", "JD")
     index_name = f"company_{company_id}_job_{job_id}_{data_type.lower()}.index"
     meta_name = f"company_{company_id}_job_{job_id}_{data_type.lower()}.json"
-    return (os.path.join(INDICES_DIR, index_name),
-            os.path.join(META_DIR, meta_name),
-            )
+    return (
+        os.path.join(INDICES_DIR, index_name),
+        os.path.join(META_DIR, meta_name),
+    )
 
-# inorder to use indexing, we need to normalize vectors and convet into float32
 
+# VECTOR NORMALIZATION
 
 def l2_normalize(vec: np.ndarray) -> np.ndarray:
     """L2-normalize a vector (float32)."""
@@ -45,8 +49,8 @@ def l2_normalize(vec: np.ndarray) -> np.ndarray:
         return vec
     return (vec / norm).astype(np.float32)
 
-# EMBEDDING + CHUNKING HELPERS
 
+# EMBEDDING + CHUNKING
 
 def embed_text(text: str) -> List[float]:
     """Generate embedding and return as Python list."""
@@ -54,8 +58,12 @@ def embed_text(text: str) -> List[float]:
     return emb.tolist()
 
 
-def chunk_text(text: str, chunk_size: int = 80, overlap: int = 20, ) -> List[str]:
-    """ Word-based chunking with overlap. Designed for CVs. """
+def chunk_text(
+    text: str,
+    chunk_size: int = 80,
+    overlap: int = 20,
+) -> List[str]:
+    """Word-based chunking with overlap. Designed for CVs."""
     words = text.split()
     chunks = []
     i = 0
@@ -66,24 +74,33 @@ def chunk_text(text: str, chunk_size: int = 80, overlap: int = 20, ) -> List[str
     return chunks
 
 
-def make_metadata(company_id: int, job_id: int, data_type: str, text_snippet: str, chunk_id: int = None, ) -> Dict[str, Any]:
+def make_metadata(
+    company_id: str,
+    job_id: str,
+    data_type: str,
+    text_snippet: str,
+    chunk_id: int | None = None,
+) -> Dict[str, Any]:
     """Metadata for one embedding."""
     return {
-        "company_id": int(company_id),
-        "job_id": int(job_id),
+        "company_id": company_id,
+        "job_id": job_id,
         "type": data_type,  # "CV" or "JD"
         "chunk_id": chunk_id,  # None for JD
         "created_at": int(time.time()),
         "embed_id": str(uuid.uuid4()),
         "snippet": text_snippet[:240],
     }
+
+
 # FAISS STORAGE
 
-
 def _create_faiss_index(dim: int):
-    """ Flat inner-product index.
-       Vectors are L2-normalized before add,
-         so IP ≈ cosine similarity. """
+    """
+    Flat inner-product index.
+    Vectors are L2-normalized before add,
+    so IP ≈ cosine similarity.
+    """
     return faiss.IndexFlatIP(dim)
 
 
@@ -124,12 +141,21 @@ def store_embedding(
             meta_list = json.load(f)
     else:
         meta_list = []
+
     meta_list.append(metadata)
 
     with open(meta_path, "w") as f:
-        json.dump(meta_list, f)
-    return {"status": "success", "index_path": index_path, "meta_path": meta_path, "total_vectors": int(index.ntotal), }
+        json.dump(meta_list, f, indent=2)
 
+    return {
+        "status": "success",
+        "index_path": index_path,
+        "meta_path": meta_path,
+        "total_vectors": int(index.ntotal),
+    }
+
+
+# PIPELINES
 
 def process_cv_application(payload: Dict[str, Any]) -> Dict[str, Any]:
     """
@@ -137,8 +163,8 @@ def process_cv_application(payload: Dict[str, Any]) -> Dict[str, Any]:
 
     Payload:
     {
-      "company_id": int,
-      "job_id": int,
+      "company_id": str,
+      "job_id": str,
       "text": "<CV raw text>"
     }
 
@@ -179,8 +205,8 @@ def process_jd_creation(payload: Dict[str, Any]) -> Dict[str, Any]:
 
     Payload:
     {
-      "company_id": int,
-      "job_id": int,
+      "company_id": str,
+      "job_id": str,
       "text": "<JD raw text>"
     }
 
@@ -192,7 +218,7 @@ def process_jd_creation(payload: Dict[str, Any]) -> Dict[str, Any]:
     company_id = payload["company_id"]
     job_id = payload["job_id"]
 
-    #  Reset old JD
+    # Reset old JD
     index_path, meta_path = get_paths(company_id, job_id, "JD")
     if os.path.exists(index_path):
         os.remove(index_path)
@@ -210,19 +236,21 @@ def process_jd_creation(payload: Dict[str, Any]) -> Dict[str, Any]:
     return store_embedding(emb, metadata)
 
 
-# sample test
+# SAMPLE TEST
 if __name__ == "__main__":
     jd_payload = {
-        "company_id": 6,
-        "job_id": 22,
+        "company_id": "6",
+        "job_id": "22",
         "text": "Hiring backend engineer with Python, Flask, Postgres experience.",
     }
     print("Storing JD:", process_jd_creation(jd_payload))
 
     cv_payload = {
-        "company_id": 6,
-        "job_id": 22,
-        "text": "Strong Python backend engineer with Flask and Postgres experience. "
-                "Worked on scalable APIs, databases, and system design.",
+        "company_id": "6",
+        "job_id": "22",
+        "text": (
+            "Strong Python backend engineer with Flask and Postgres experience. "
+            "Worked on scalable APIs, databases, and system design."
+        ),
     }
     print("Storing CV:", process_cv_application(cv_payload))

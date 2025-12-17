@@ -1,0 +1,29 @@
+[
+  {
+    "company_id": "temp-company-df0311d4-f568-47d1-ab54-b548f6e715b1",
+    "job_id": "69341b8a09bbd779a0291b43",
+    "type": "CV",
+    "chunk_id": 0,
+    "created_at": 1765996040,
+    "embed_id": "e433f890-4c51-49b8-a82d-d394438ee843",
+    "snippet": "Srishti Murarka, a B.Tech student in Electronics and Electrical Engineering at Indian Institute Of Technology, Guwahati (2021-Present), has developed full-stack projects such as a GMeet Clone using Node.js, Socket.io, HTML, CSS, and a Real "
+  },
+  {
+    "company_id": "temp-company-df0311d4-f568-47d1-ab54-b548f6e715b1",
+    "job_id": "69341b8a09bbd779a0291b43",
+    "type": "CV",
+    "chunk_id": 1,
+    "created_at": 1765996040,
+    "embed_id": "351a7024-814f-43b2-80fe-69125afa7a06",
+    "snippet": "Open Trivia DB API. Her experience includes serving as Events Head at Cepstrum (Jul 2023 - Present), Branch Representative for the EEE department (May 2022 - Jun 2023), and Core Team member for Lecture Series and Pronites at Techniche (Nov "
+  },
+  {
+    "company_id": "temp-company-df0311d4-f568-47d1-ab54-b548f6e715b1",
+    "job_id": "69341b8a09bbd779a0291b43",
+    "type": "CV",
+    "chunk_id": 2,
+    "created_at": 1765996040,
+    "embed_id": "209408e8-a549-4466-a693-a4d0d0ab3862",
+    "snippet": "in Painting and Keyboard with first division placements."
+  }
+]

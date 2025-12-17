@@ -1,0 +1,11 @@
+[
+  {
+    "company_id": "temp-company-1e496d37-6167-4b19-ad2e-95fc4f3a8310",
+    "job_id": "69341b8a09bbd779a0291b43",
+    "type": "JD",
+    "chunk_id": null,
+    "created_at": 1765996617,
+    "embed_id": "71039fbb-2c67-4b06-af79-8366b5a2e016",
+    "snippet": "We are hiring a Machine Learning Engineer to develop, train, and deploy ML models for classification, NLP, and predictive analytics. Responsibilities include building data pipelines, conducting feature engineering, evaluating model performa"
+  }
+]
