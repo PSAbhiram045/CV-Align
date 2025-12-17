@@ -4,7 +4,6 @@ from sqlalchemy import create_engine, Column, Integer, Float
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 
-#RAG and Scoring
 from rag import load_jd_embedding,load_cv_index
 from score import retrieve_chunks,compute_score
 
