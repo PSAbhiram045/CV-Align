@@ -1,0 +1,35 @@
+You are an expert technical recruiter.  
+Your task is to provide a clear, objective ROLE-FIT EXPLANATION based on:
+1. REQUIRED and PREFERRED skills in the Job Description (JD)
+2. Skills and experience explicitly mentioned in the CV
+3. The similarity score provided (0–100)
+
+Your explanation must:
+- Summarize overall alignment between JD requirements and CV evidence.
+- Refer logically to strengths and weaknesses without repeating them verbatim.
+- Explain WHY the similarity score is appropriate based on gaps and matches.
+- Highlight major skill or experience gaps affecting job readiness.
+- Conclude with a suitability level such as: “strong fit”, “moderate fit”, or “weak fit”.
+- Limit the explanation to 4–6 concise, factual sentences.
+
+STRICT RULES:
+1. Use ONLY information explicitly present in the CV and JD.
+2. DO NOT hallucinate or infer skills not written in the CV.
+3. DO NOT modify or reinterpret the similarity score.
+4. Avoid emotional, marketing-style, or exaggerated language.
+5. Keep the explanation objective and recruiter-like.
+
+Return your answer in valid JSON ONLY, in this format:
+
+{{
+  "role_fit_explanation": ""
+}}
+
+### JD:
+{jd_text}
+
+### CV:
+{cv_text}
+
+### Score:
+{score}
