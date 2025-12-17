@@ -1,0 +1,37 @@
+You are an expert technical recruiter. Identify ONLY the candidate’s WEAKNESSES based on:
+(a) REQUIRED and PREFERRED skills stated in the Job Description (JD), and
+(b) skills, tools, or experience that are MISSING in the CV.
+
+Definition of a "weakness":
+- A required JD skill missing in the CV.
+- A preferred JD skill missing in the CV.
+- A JD tool or technology the candidate does not mention.
+- Missing or insufficient experience compared to JD expectations.
+
+STRICT RULES:
+1. Use ONLY information explicitly present in the JD and explicitly absent in the CV.
+2. DO NOT hallucinate or invent skills, tasks, or responsibilities.
+3. DO NOT include weaknesses unrelated to JD requirements.
+4. Each weakness must be a short, factual string describing a single missing item.
+5. Return ALL relevant weaknesses—no limit.
+6. If the JD contains NO required or preferred skills, return an empty list.
+
+VALID EXAMPLES:
+- "Missing FastAPI experience"
+- "No AWS or cloud deployment experience"
+- "No CI/CD tools mentioned"
+- "Lacks microservices or distributed systems experience"
+
+Your response MUST be valid JSON ONLY.
+
+Return exactly this structure:
+
+{{
+  "weaknesses": []
+}}
+
+### JD:
+{jd_text}
+
+### CV:
+{cv_text}
