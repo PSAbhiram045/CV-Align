@@ -1,0 +1,20 @@
+[
+  {
+    "company_id": "69400738995b70f061f2aaa7",
+    "job_id": "69400cf8995b70f061f2aadf",
+    "type": "CV",
+    "chunk_id": 0,
+    "created_at": 1766044673,
+    "embed_id": "d3bd0ec1-56ab-4617-98e1-719238296399",
+    "snippet": "Srishti Murarka, a B.Tech student in Electronics and Electrical Engineering at Indian Institute Of Technology, Guwahati (2021-Present), has developed technical skills in C, C++, Java, Python, HTML, CSS, JavaScript, Node.js, React, Firebase,"
+  },
+  {
+    "company_id": "69400738995b70f061f2aaa7",
+    "job_id": "69400cf8995b70f061f2aadf",
+    "type": "CV",
+    "chunk_id": 1,
+    "created_at": 1766044673,
+    "embed_id": "3b145801-00d4-4bd2-b355-00733dab93e1",
+    "snippet": "department (May 2022 - Jun 2023), and Core Team member for Lecture Series and Pronites at Techniche (Nov 2022 - Present). Her achievements include ranking 5658 in JEE Advanced 2021, ranking 10162 in JEE Mains 2021, and securing junior diplo"
+  }
+]

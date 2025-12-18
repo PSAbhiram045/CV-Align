@@ -18,6 +18,8 @@ router.post(
   requireRole(["admin", "recruiter", "hiring_manager"]),
   upload.single("cv"),
   async (req, res) => {
+    console.log("🔥 EXPRESS /evaluate-cv ROUTE HIT");
+
     const cvFile = req.file;
     const { job_id, email: candidateEmailFromInput } = req.body;
 
@@ -31,7 +33,8 @@ router.post(
     }
 
     try {
-      // ✅ FORCE companyId TO BE LOADED
+      // ✅ LOAD companyId EXPLICITLY
+      // Ensure the field is selected (select("+companyId"))
       const job = await Job.findById(job_id).select("+companyId");
 
       if (!job) {
@@ -39,31 +42,26 @@ router.post(
         return res.status(404).json({ message: "Job not found" });
       }
 
-      // 🔴 HARD FAIL IF companyId IS MISSING
-      if (!job.companyId) {
-        fs.unlinkSync(cvFile.path);
-        return res.status(500).json({
-          message: "Job is missing companyId. Cannot evaluate CV.",
-        });
+      // Handle cases where the field might be named 'company' instead of 'companyId'
+      const resolvedCompanyId = job.companyId || job.company;
+
+      if (!resolvedCompanyId) {
+        throw new Error("Job is missing companyId");
       }
 
-      // 🔐 Company isolation
+      // 🔐 COMPANY ISOLATION
       if (req.user.role !== "admin") {
         if (!req.user.companyId) {
           return res.status(403).json({ message: "Missing company scope" });
         }
 
-        if (
-          job.companyId.toString() !== req.user.companyId.toString()
-        ) {
+        if (resolvedCompanyId.toString() !== req.user.companyId.toString()) {
           return res.status(403).json({
-            message:
-              "You cannot evaluate CVs for jobs outside your company",
+            message: "You cannot evaluate CVs for jobs outside your company",
           });
         }
       }
 
-      // ✅ Build JD text
       const jdText = `
 Job Title: ${job.title}
 Department: ${job.department}
@@ -74,45 +72,56 @@ Job Description:
 ${job.description}
       `.trim();
 
-      // ✅ Build multipart form
+      // ✅ BUILD FORM DATA
       const formData = new FormData();
-      formData.append("cv", fs.createReadStream(cvFile.path));
+
+      // -------------------------------------------------------------
+      // ⚠️ CRITICAL FIX: APPEND TEXT FIELDS BEFORE THE FILE
+      // FastAPI/Starlette needs these fields first to validate them
+      // before streaming the large file content.
+      // -------------------------------------------------------------
       formData.append("job_id", job_id);
-      formData.append("company_id", job.companyId.toString()); // 🔥 ALWAYS SENT
+      formData.append("company_id", resolvedCompanyId.toString());
       formData.append("jd_text", jdText);
       formData.append("job_title", job.title);
       formData.append("email", candidateEmailFromInput || "");
 
-      // 🔥 HARD DEBUG (KEEP UNTIL CONFIRMED)
-      console.log("🔥 EXPRESS SENDING FORM DATA:");
-      for (const [key, value] of formData.entries()) {
-        console.log(
-          key,
-          value instanceof fs.ReadStream ? "FILE" : value
-        );
-      }
+      // -------------------------------------------------------------
+      // FILE GOES LAST
+      // -------------------------------------------------------------
+      formData.append("cv", fs.createReadStream(cvFile.path));
+
+      console.log("🚀 SENDING TO FASTAPI:", {
+        job_id,
+        company_id: resolvedCompanyId.toString(),
+        job_title: job.title,
+      });
 
       const mlResponse = await axios.post(
         "http://localhost:8000/api/evaluate-cv",
         formData,
         {
-          headers: formData.getHeaders(),
+          headers: {
+            ...formData.getHeaders(), // Spread headers ensures boundaries are set correctly
+          },
           timeout: 60_000,
         }
       );
 
       const result = mlResponse.data || {};
 
+      // ✅ SAVE CANDIDATE
       const candidate = await Candidate.create({
         name: result.name || "Unknown",
         email: result.email || candidateEmailFromInput || null,
-        relevanceScore: result.score ?? 0,
+        phone: result.phone || null,
+        score: result.score ?? 0,
         status: result.status || "pending",
         strengths: result.strengths || [],
         weaknesses: result.weaknesses || [],
         feedback: result.feedback || "",
         jobId: job_id,
-        companyId: job.companyId,
+        companyId: resolvedCompanyId,
       });
 
       await Job.findByIdAndUpdate(job_id, { $inc: { cvCount: 1 } });
@@ -123,8 +132,17 @@ ${job.description}
         mlResult: result,
       });
     } catch (err) {
-      console.error("ML evaluation error:", err);
-      res.status(500).json({ message: "ML evaluation failed" });
+      // 🔥 IMPORTANT: LOG EXACT FASTAPI ERROR
+      if (err.response) {
+        console.error("❌ FASTAPI ERROR (422/500):", JSON.stringify(err.response.data, null, 2));
+      } else {
+        console.error("❌ SERVER ERROR:", err);
+      }
+
+      res.status(500).json({
+        message: "ML evaluation failed",
+        error: err.response?.data || err.message,
+      });
     } finally {
       if (cvFile?.path && fs.existsSync(cvFile.path)) {
         fs.unlinkSync(cvFile.path);

@@ -2,7 +2,7 @@ import os
 import shutil
 import uuid
 
-from fastapi import FastAPI, UploadFile, File, Form, HTTPException
+from fastapi import FastAPI, UploadFile, File, Form, HTTPException, Request
 from fastapi.middleware.cors import CORSMiddleware
 from ml_service.pipeline import evaluate
 
@@ -20,22 +20,19 @@ app.add_middleware(
 )
 
 
-from fastapi import Request
-
 @app.post("/api/evaluate-cv")
 async def evaluate_cv_api(
     request: Request,
-    cv: UploadFile = File(...),
     job_id: str = Form(...),
     company_id: str = Form(...),
     jd_text: str = Form(...),
     job_title: str = Form(""),
     email: str = Form(""),
-    
+    cv: UploadFile = File(...),
 ):
+    # 🔥 DEBUG: SHOW WHAT FASTAPI RECEIVES
     form = await request.form()
-    print("🔥 RAW FORM KEYS RECEIVED:", list(form.keys()))
-
+    print("🔥 FASTAPI RECEIVED FORM KEYS:", list(form.keys()))
 
     BASE_DIR = os.path.dirname(os.path.abspath(__file__))
     temp_dir = os.path.join(BASE_DIR, "temp_cvs")

@@ -24,7 +24,7 @@ const candidateSchema = new mongoose.Schema(
         cvId: {
             type: mongoose.Schema.Types.ObjectId,
             ref: "CV",
-            required: true,
+            default: null,
         },
         extractedText: String,
 

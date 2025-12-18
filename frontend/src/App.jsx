@@ -285,48 +285,63 @@ const App = () => {
         setSelectedFiles([file]);
     };
 
-    const handleMLEvaluation = async () => {
-        if (!uploadJob || selectedFiles.length !== 1 || !candidateEmail) {
-            showNotification("Job + 1 CV + Email required", "error");
-            return;
-        }
+const handleMLEvaluation = async () => {
+  if (!uploadJob || selectedFiles.length !== 1 || !candidateEmail) {
+    showNotification("Job + 1 CV + Email required", "error");
+    return;
+  }
 
-        try {
-            setUploading(true);
+  try {
+    setUploading(true);
 
-            const selectedJobObj = jobDescriptions.find((j) => j._id === uploadJob);
+    const selectedJobObj = jobDescriptions.find(
+      (j) => j._id === uploadJob
+    );
 
-            const formData = new FormData();
-            formData.append("cv", selectedFiles[0]); // ✅ FILE
-            formData.append("job_id", uploadJob); // ✅ JOB ID
-            formData.append("job_title", selectedJobObj?.title); // ✅ TITLE
-            formData.append("jd_text", selectedJobObj?.description || ""); // ✅ FULL JD
-            formData.append("email", candidateEmail); // ✅ EMAIL
+    const formData = new FormData();
+    formData.append("cv", selectedFiles[0]);
+    formData.append("job_id", uploadJob);
+    formData.append("job_title", selectedJobObj?.title || "");
+    formData.append("jd_text", selectedJobObj?.description || "");
+    formData.append("email", candidateEmail);
 
-            const response = await fetch("http://localhost:8000/api/evaluate-cv", {
-                method: "POST",
-                body: formData,
-            });
+    // ✅ CALL EXPRESS (NOT FASTAPI)
+    const response = await fetch(
+      "http://localhost:5000/api/ml/evaluate-cv",
+      {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+        body: formData,
+      }
+    );
 
-            if (!response.ok) throw new Error("ML Evaluation failed");
+    const data = await response.json();
 
-            const data = await response.json();
+    if (!response.ok) {
+      throw new Error(
+        data.message || data.detail || "ML Evaluation failed"
+      );
+    }
 
-            showNotification("AI Evaluation Done ✅", "success");
-            setSelectedCandidate(data);
-            setShowModal(true);
-            fetchCandidates();
+    showNotification("AI Evaluation Done ✅", "success");
+    setSelectedCandidate(data.candidate || data);
+    setShowModal(true);
 
-            setSelectedFiles([]);
-            setUploadJob("");
-            setCandidateEmail("");
-        } catch (err) {
-            console.error(err);
-            showNotification("ML Evaluation failed", "error");
-        } finally {
-            setUploading(false);
-        }
-    };
+    fetchCandidates();
+
+    setSelectedFiles([]);
+    setUploadJob("");
+    setCandidateEmail("");
+  } catch (err) {
+    console.error(err);
+    showNotification(err.message || "ML Evaluation failed", "error");
+  } finally {
+    setUploading(false);
+  }
+};
+
 
     const handleNormalUpload = async () => {
         if (!uploadJob || selectedFiles.length === 0) {
@@ -700,11 +715,15 @@ const App = () => {
                             </div>
                             <div className="info-row">
                                 <strong>Upload Date:</strong>
-                                <span>{selectedCandidate.uploadDate}</span>
+                                <span>
+                                   {selectedCandidate.createdAt
+                                          ? new Date(selectedCandidate.createdAt).toLocaleDateString()
+                                          : "—"}
+                                </span>
                             </div>
                             <div className="info-row">
                                 <strong>Job Role:</strong>
-                                <span>{selectedCandidate.jobTitle || "N/A"}</span>
+                                <span>{selectedCandidate.jobId?.title || "N/A"}</span>
                             </div>
                         </div>
 

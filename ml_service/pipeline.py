@@ -71,7 +71,7 @@ def evaluate(
         score=score
     )
 
-    status = "can be shortlisted" if score >= 70 else "can be rejected"
+    status = "pending" if score >= 70 else "pending"
 
     return {
         "name": cv_data.get("name", ""),
@@ -82,9 +82,9 @@ def evaluate(
             or cv_data.get("mobile")
             or ""
         ),
-        "uploadDate": date.today().isoformat(),  # ✅ ADDED
-        "score": score,
+        "score": score,  # ✅ ADDED
         "status": status,
+        "uploadDate": date.today().isoformat(),
         "strengths": feedback_result.get("strengths", []),
         "weaknesses": feedback_result.get("weaknesses", []),
         "feedback": feedback_result.get("role_fit_explanation", ""),
