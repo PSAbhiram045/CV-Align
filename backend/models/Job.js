@@ -34,6 +34,15 @@ const jobSchema = new mongoose.Schema(
             type: Number,
             default: 0,
         },
+        // Thresholds for ML-driven status decisions (percent)
+        shortlistThreshold: {
+            type: Number,
+            default: 75,
+        },
+        rejectThreshold: {
+            type: Number,
+            default: 40,
+        },
         status: {
             type: String,
             enum: ["active", "closed", "draft"],

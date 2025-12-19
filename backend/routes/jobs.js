@@ -8,7 +8,15 @@ const router = express.Router();
 // Create job
 router.post("/", requireAuth, requireRole(["admin", "hiring_manager"]), async (req, res) => {
     try {
-        const { title, department, skills, experience, description } = req.body;
+        const {
+            title,
+            department,
+            skills,
+            experience,
+            description,
+            shortlistThreshold,
+            rejectThreshold,
+        } = req.body;
 
         const companyId =
             req.user.role === "admin"
@@ -27,6 +35,9 @@ router.post("/", requireAuth, requireRole(["admin", "hiring_manager"]), async (r
             description,
             createdBy: req.user.id || req.user._id,
             companyId,
+            shortlistThreshold:
+                typeof shortlistThreshold === "number" ? shortlistThreshold : undefined,
+            rejectThreshold: typeof rejectThreshold === "number" ? rejectThreshold : undefined,
         });
 
         await job.save();

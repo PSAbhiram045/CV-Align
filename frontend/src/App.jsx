@@ -66,6 +66,8 @@ const App = () => {
         skills: "",
         experience: "",
         description: "",
+        shortlistThreshold: 75,
+        rejectThreshold: 40,
     });
 
     // ✅ ADMIN CREATE USER STATE (ADDED)
@@ -175,6 +177,26 @@ const App = () => {
             return;
         }
 
+        // Validate experience is a number
+        if (
+            jobForm.experience === "" ||
+            jobForm.experience === null ||
+            isNaN(Number(jobForm.experience))
+        ) {
+            showNotification("Preferred experience must be a number (years)", "error");
+            return;
+        }
+
+        // Validate thresholds
+        if (
+            typeof jobForm.shortlistThreshold === "number" &&
+            typeof jobForm.rejectThreshold === "number" &&
+            jobForm.rejectThreshold >= jobForm.shortlistThreshold
+        ) {
+            showNotification("Reject threshold must be less than shortlist threshold", "error");
+            return;
+        }
+
         try {
             setLoading(true);
             const response = await authFetch(`${API_URL}/jobs`, {
@@ -182,12 +204,17 @@ const App = () => {
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({
                     ...jobForm,
+                    experience: Number(jobForm.experience),
+                    shortlistThreshold: Number(jobForm.shortlistThreshold),
+                    rejectThreshold: Number(jobForm.rejectThreshold),
                     skills: jobForm.skills
                         .split(",")
                         .map((s) => s.trim())
                         .filter((s) => s),
                 }),
             });
+
+            const resBody = await response.json().catch(() => ({}));
 
             if (response.ok) {
                 showNotification("Job created successfully!", "success");
@@ -197,10 +224,13 @@ const App = () => {
                     skills: "",
                     experience: "",
                     description: "",
+                    shortlistThreshold: 75,
+                    rejectThreshold: 40,
                 });
                 fetchJobs();
             } else {
-                throw new Error("Failed to create job");
+                console.error("Create job failed:", resBody);
+                showNotification(resBody.message || "Failed to create job", "error");
             }
         } catch (error) {
             console.error("Error creating job:", error);
@@ -285,63 +315,55 @@ const App = () => {
         setSelectedFiles([file]);
     };
 
-const handleMLEvaluation = async () => {
-  if (!uploadJob || selectedFiles.length !== 1 || !candidateEmail) {
-    showNotification("Job + 1 CV + Email required", "error");
-    return;
-  }
+    const handleMLEvaluation = async () => {
+        if (!uploadJob || selectedFiles.length !== 1 || !candidateEmail) {
+            showNotification("Job + 1 CV + Email required", "error");
+            return;
+        }
 
-  try {
-    setUploading(true);
+        try {
+            setUploading(true);
 
-    const selectedJobObj = jobDescriptions.find(
-      (j) => j._id === uploadJob
-    );
+            const selectedJobObj = jobDescriptions.find((j) => j._id === uploadJob);
 
-    const formData = new FormData();
-    formData.append("cv", selectedFiles[0]);
-    formData.append("job_id", uploadJob);
-    formData.append("job_title", selectedJobObj?.title || "");
-    formData.append("jd_text", selectedJobObj?.description || "");
-    formData.append("email", candidateEmail);
+            const formData = new FormData();
+            formData.append("cv", selectedFiles[0]);
+            formData.append("job_id", uploadJob);
+            formData.append("job_title", selectedJobObj?.title || "");
+            formData.append("jd_text", selectedJobObj?.description || "");
+            formData.append("email", candidateEmail);
 
-    // ✅ CALL EXPRESS (NOT FASTAPI)
-    const response = await fetch(
-      "http://localhost:5000/api/ml/evaluate-cv",
-      {
-        method: "POST",
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-        body: formData,
-      }
-    );
+            // ✅ CALL EXPRESS (NOT FASTAPI)
+            const response = await fetch("http://localhost:5000/api/ml/evaluate-cv", {
+                method: "POST",
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+                body: formData,
+            });
 
-    const data = await response.json();
+            const data = await response.json();
 
-    if (!response.ok) {
-      throw new Error(
-        data.message || data.detail || "ML Evaluation failed"
-      );
-    }
+            if (!response.ok) {
+                throw new Error(data.message || data.detail || "ML Evaluation failed");
+            }
 
-    showNotification("AI Evaluation Done ✅", "success");
-    setSelectedCandidate(data.candidate || data);
-    setShowModal(true);
+            showNotification("AI Evaluation Done ✅", "success");
+            setSelectedCandidate(data.candidate || data);
+            setShowModal(true);
 
-    fetchCandidates();
+            fetchCandidates();
 
-    setSelectedFiles([]);
-    setUploadJob("");
-    setCandidateEmail("");
-  } catch (err) {
-    console.error(err);
-    showNotification(err.message || "ML Evaluation failed", "error");
-  } finally {
-    setUploading(false);
-  }
-};
-
+            setSelectedFiles([]);
+            setUploadJob("");
+            setCandidateEmail("");
+        } catch (err) {
+            console.error(err);
+            showNotification(err.message || "ML Evaluation failed", "error");
+        } finally {
+            setUploading(false);
+        }
+    };
 
     const handleNormalUpload = async () => {
         if (!uploadJob || selectedFiles.length === 0) {
@@ -716,9 +738,9 @@ const handleMLEvaluation = async () => {
                             <div className="info-row">
                                 <strong>Upload Date:</strong>
                                 <span>
-                                   {selectedCandidate.createdAt
-                                          ? new Date(selectedCandidate.createdAt).toLocaleDateString()
-                                          : "—"}
+                                    {selectedCandidate.createdAt
+                                        ? new Date(selectedCandidate.createdAt).toLocaleDateString()
+                                        : "—"}
                                 </span>
                             </div>
                             <div className="info-row">
@@ -807,6 +829,30 @@ const handleMLEvaluation = async () => {
                         placeholder="e.g., 5"
                         value={jobForm.experience}
                         onChange={(e) => setJobForm({ ...jobForm, experience: e.target.value })}
+                    />
+                </div>
+                <div className="form-group">
+                    <label>Shortlist Threshold (%)</label>
+                    <input
+                        type="number"
+                        min={0}
+                        max={100}
+                        value={jobForm.shortlistThreshold}
+                        onChange={(e) =>
+                            setJobForm({ ...jobForm, shortlistThreshold: Number(e.target.value) })
+                        }
+                    />
+                </div>
+                <div className="form-group">
+                    <label>Reject Threshold (%)</label>
+                    <input
+                        type="number"
+                        min={0}
+                        max={100}
+                        value={jobForm.rejectThreshold}
+                        onChange={(e) =>
+                            setJobForm({ ...jobForm, rejectThreshold: Number(e.target.value) })
+                        }
                     />
                 </div>
                 <div className="form-group">
