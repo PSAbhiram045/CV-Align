@@ -1,0 +1,110 @@
+[
+  {
+    "company_id": "693af21215aaa1e31fa545e4",
+    "job_id": "6947d3d369995ba2443c34af",
+    "type": "CV",
+    "chunk_id": 0,
+    "created_at": 1766776909,
+    "embed_id": "7fb47b64-0510-47e7-ae16-61cc0c6bc0b7",
+    "snippet": "Name: Ishan Chandra Gupta. Education: B.Tech in Data Science and Artificial Intelligence (Indian Institute Of Technology, Guwahati, 2022-Present) with a Minor in Computer Science and Engineering (IIT Guwahati, 2023-Present); Senior Secondar"
+  },
+  {
+    "company_id": "693af21215aaa1e31fa545e4",
+    "job_id": "6947d3d369995ba2443c34af",
+    "type": "CV",
+    "chunk_id": 1,
+    "created_at": 1766776909,
+    "embed_id": "296294ae-59f5-42cd-a4c4-a4eff1f23106",
+    "snippet": "Matplotlib, Express. Experience: Group Project FitAI at IIT Guwahati (Apr 2024 - May 2024); Flight Booking System at Coding Club, IIT Guwahati (Jun 2024); Marketing Executive at Spirit (2023); Marketing Associate at Alcheringa (2023). Achie"
+  },
+  {
+    "company_id": "693af21215aaa1e31fa545e4",
+    "job_id": "6947d3d369995ba2443c34af",
+    "type": "CV",
+    "chunk_id": 0,
+    "created_at": 1766776983,
+    "embed_id": "303c1f56-2f4a-4952-948a-3550606925e1",
+    "snippet": "Ishan Chandra Gupta, a B.Tech student in Data Science and Artificial Intelligence with a minor in Computer Science and Engineering from Indian Institute Of Technology, Guwahati (2022-Present for major, 2023-Present for minor), has strong te"
+  },
+  {
+    "company_id": "693af21215aaa1e31fa545e4",
+    "job_id": "6947d3d369995ba2443c34af",
+    "type": "CV",
+    "chunk_id": 1,
+    "created_at": 1766776984,
+    "embed_id": "bc1c6b8b-cb4e-4354-9225-5100c02cf095",
+    "snippet": "Marketing Executive for Spirit and as a Marketing Associate for Alcheringa in 2023, and has led projects such as RealEstate Connect, FitAI, and Flight Booking System. His achievements include a Codeforces rating of 1469, a Leetcode rating o"
+  },
+  {
+    "company_id": "693af21215aaa1e31fa545e4",
+    "job_id": "6947d3d369995ba2443c34af",
+    "type": "CV",
+    "chunk_id": 0,
+    "created_at": 1766777881,
+    "embed_id": "e38d0de3-41ea-4aac-b896-943e0bd13124",
+    "snippet": "Rishita Agarwal, a B.Tech student in Data Science and Artificial Intelligence with a minor in Computer Science and Engineering at Indian Institute of Technology, Guwahati (2022\u2011Present for major, 2023\u2011Present for minor), has developed exper"
+  },
+  {
+    "company_id": "693af21215aaa1e31fa545e4",
+    "job_id": "6947d3d369995ba2443c34af",
+    "type": "CV",
+    "chunk_id": 1,
+    "created_at": 1766777881,
+    "embed_id": "91de0192-8c6c-48f7-9ebb-a14690e96f51",
+    "snippet": "and tools like Git, Streamlit, LaTeX, Windows, Linux, and SQL. She is currently a Google STEP SWE Intern (2023\u2011Present) where she worked on a data migration POC to Google Chat, building asynchronous backend flows and contributing to the Goo"
+  },
+  {
+    "company_id": "693af21215aaa1e31fa545e4",
+    "job_id": "6947d3d369995ba2443c34af",
+    "type": "CV",
+    "chunk_id": 2,
+    "created_at": 1766777882,
+    "embed_id": "eed85faa-1e5a-4702-ae87-45f4039df8f9",
+    "snippet": "and LaTeX, and a Quant PS strategy using statistical arbitrage. She has earned several accolades, including being selected among the top 80 students for Google STEP (2023), winning 1st place in Inter IIT Tech Camp Quant PS (2023), achieving"
+  },
+  {
+    "company_id": "693af21215aaa1e31fa545e4",
+    "job_id": "6947d3d369995ba2443c34af",
+    "type": "CV",
+    "chunk_id": 3,
+    "created_at": 1766777882,
+    "embed_id": "a7cadd7d-d929-43ac-aa99-9361c3897997",
+    "snippet": "securing top ranks in JEE Advanced 2022, JEE Main 2022, KVPY SA 2022, NTSE 2022, and RMO 2022."
+  },
+  {
+    "company_id": "693af21215aaa1e31fa545e4",
+    "job_id": "6947d3d369995ba2443c34af",
+    "type": "CV",
+    "chunk_id": 0,
+    "created_at": 1766778333,
+    "embed_id": "043d6c98-350c-49d9-a6b8-cf53286a7f06",
+    "snippet": "Rishita Agarwal, a B.Tech student in Data Science and Artificial Intelligence with a minor in Computer Science and Engineering at Indian Institute of Technology, Guwahati (2022\u2011Present for major, 2023\u2011Present for minor), has developed exper"
+  },
+  {
+    "company_id": "693af21215aaa1e31fa545e4",
+    "job_id": "6947d3d369995ba2443c34af",
+    "type": "CV",
+    "chunk_id": 1,
+    "created_at": 1766778333,
+    "embed_id": "305ea75b-26c3-46e7-a6b2-6b8090fcb899",
+    "snippet": "and tools like Git, Streamlit, LaTeX, Windows, Linux, and SQL. She is currently a Google STEP SWE Intern (2023\u2011Present) where she worked on a data migration POC to Google Chat, building asynchronous backend flows and contributing to the Goo"
+  },
+  {
+    "company_id": "693af21215aaa1e31fa545e4",
+    "job_id": "6947d3d369995ba2443c34af",
+    "type": "CV",
+    "chunk_id": 2,
+    "created_at": 1766778333,
+    "embed_id": "13d820d1-a741-441f-a376-8c43d7a3173c",
+    "snippet": "and LaTeX, and a Quant PS strategy using statistical arbitrage. She has earned several accolades, including being selected among the top 80 students for Google STEP (2023), winning 1st place in Inter IIT Tech Camp Quant PS (2023), achieving"
+  },
+  {
+    "company_id": "693af21215aaa1e31fa545e4",
+    "job_id": "6947d3d369995ba2443c34af",
+    "type": "CV",
+    "chunk_id": 3,
+    "created_at": 1766778333,
+    "embed_id": "1589606d-bfc1-40ce-8cce-21ec14d180bb",
+    "snippet": "securing top ranks in JEE Advanced 2022, JEE Main 2022, KVPY SA 2022, NTSE 2022, and RMO 2022."
+  }
+]

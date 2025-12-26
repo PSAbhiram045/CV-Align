@@ -68,7 +68,7 @@ def score_candidate(req: ScoreRequest):
         )
 
         cv_vectors = retrieve_chunks(jd_embedding, index)
-        score = compute_score(jd_embedding, cv_vectors)
+        score = compute_score(jd_embedding, cv_vectors,k=10)
 
         # Upsert score
         record = Application(

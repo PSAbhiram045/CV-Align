@@ -11,18 +11,23 @@ def retrieve_chunks(jd_embedding, index):
     return cv_vectors
 
 
-def compute_score(jd_embedding, cv_vectors):
-    """
-    Compute cosine similarity between JD and CV vectors
-    Return average similarity as score
-    """
-    jd = jd_embedding / np.linalg.norm(jd_embedding)
+def compute_score(jd_embedding,cv_vectors,k=10):
+    jd=jd_embedding/np.linalg.norm(jd_embedding)
 
-    sims = []
+    sims=[]
+
     for cv in cv_vectors:
-        cv = cv / np.linalg.norm(cv)
-        sim = np.dot(jd, cv)
-        sims.append(sim)
+        cv=cv/np.linalg.norm(cv)
+        sims.append(np.dot(jd,cv))
 
-    score = (sum(sims) / len(sims) + 1) / 2
-    return round(score*100, 3)
+    sims.sort(reverse=True)
+    top = sims[:min(k, len(sims))]
+
+    mean_sim = np.mean(top)
+    std_sim = np.std(top)
+
+    stretched = (mean_sim - 0.2) / 0.3
+    stretched = max(0, min(1, stretched))
+
+    score = stretched * 100
+    return round(score, 2)

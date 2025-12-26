@@ -5,7 +5,7 @@ from groq import Groq
 import json
 
 
-client = Groq(api_key="groq")
+client = Groq(api_key="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")
 
 
 # ---------------------------------------------------
