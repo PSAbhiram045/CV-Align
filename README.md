@@ -1,43 +1,60 @@
 ## 👤 Demo Credentials (for reviewers)
 
-Admin
-Email: admin@cvalign.com
-Password: admin123
+> ⚠️ For demo/testing purposes
+> **Admin**
 
-> > using the create users UI - recruiters/managers of different companies can be created .
-> > login as a hiring manager to create new job roles for a specific company.
-> > login as a recruiter and upload cv for score evaluation.
+-   **Email:** admin@cvalign.com
+-   **Password:** admin123
+
+### Demo Flow
+
+-   Use **Create Users UI** to create recruiters/managers for different companies.
+-   login as **Hiring Manager** to create new job roles for a specific company.
+-   login as a **Recruiter** and upload CVs for score evaluation.
 
 ---
 
 ## ▶️ How to Run the Project
 
-> > create .env file in project root folder for cloudinary.
-> > create .env file in backend folder for mongodb.
+-   create a `.env` file in the **project root folder** for **Cloudinary**.
+-   create a `.env` file in the **backend folder** for **mongoDB**.
 
-🔵 Frontend Setup :
+---
+
+### 🔵 Frontend Setup :
+
+```bash
 cd frontend
 npm install
 npm run dev
+```
 
 🟢 Backend Setup :
+
+```bash
 cd backend
 npm install
 npm run dev
+```
 
 🧠 ML Server Setup :
 
-> > install dependencies first.
+install dependencies first.
 
 Terminal 1 - RAG & Scoring Service
+
+```bash
 cd "RAG and Scoring"
 uvicorn main:app --host 0.0.0.0 --port 8002 --reload
+```
 
 Terminal 2 - ML Evaluation Service
 
-> > in project root folder,Run
+in project root folder,Run
 
+```bash
     uvicorn ml_service.main:app --host 0.0.0.0 --port 8000 --reload
+```
 
 ---
 
