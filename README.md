@@ -1,143 +1,114 @@
-🧠 CVAlign – AI-Powered CV Screening & Job Matching Platform
+## 👤 Demo Credentials (for reviewers)
 
-CVAlign is a full-stack AI-powered recruitment platform that automates CV screening, job matching, and candidate evaluation using Machine Learning + NLP, with complete role-based access control (RBAC).
+> ⚠️ For demo/testing purposes
+> **Admin**
 
-This project is developed by:
-1 Full-Stack Web Developer
-2 Machine Learning Engineers
+-   **Email:** admin@cvalign.com
+-   **Password:** admin123
 
-🚀 Tech Stack:
+### Demo Flow
 
-🌐 Frontend
-React.js
-Tailwind / CSS
-Role-based dashboards
-🖥 Backend (Main API)
-Node.js
-Express.js
-MongoDB (Mongoose)
+-   Use **Create Users UI** to create recruiters/managers for different companies.
+-   login as **Hiring Manager** to create new job roles for a specific company.
+-   login as a **Recruiter** and upload CVs for score evaluation.
 
-🧠 ML Backend (Microservice)
-FastAPI (Python)
-LangChain
-FAISS (Vector DB)
-OpenAI / HuggingFace Embeddings
-☁ Cloud Storage
-Cloudinary (CV file storage)
+---
 
-🔐 User Roles & Permissions
-Role Permissions
-Admin Create users, create jobs, upload CVs, view candidates
-Recruiter Upload CVs, evaluate CVs using AI
-Hiring Manager Create jobs, view candidates
+## ▶️ How to Run the Project
 
-📂 Project Structure
-/frontend → React UI
-/backend → Node + Express API
-/ml-api → FastAPI ML Microservice
+-   create a `.env` file in the **project root folder** for **Cloudinary**.
+-   create a `.env` file in the **backend folder** for **mongoDB**.
 
-🧠 Machine Learning Pipeline (Handled by 2 ML Engineers)
-✅ 1. CV & JD Processing + Scoring
+---
 
-Functions:
-def extract_and_clean(file_path) -> dict
-def embed_cv(text) -> list
-def embed_jd(text) -> list
-def compute_cv_score(jd_vec, cv_vec) -> float
+### 🔵 Frontend Setup :
 
-Responsibilities:
-PDF/DOCX text extraction
-Data cleaning
-CV & JD vector embedding
-Similarity scoring (0–100)
-
-✅ 2. LLM Feedback & ML API Integration
-
-Functions:
-def generate_feedback(jd_text, cv_text, score) -> dict
-def evaluate_cv(job_id, jd_text, cv_file) -> dict
-
-Responsibilities:
-Strengths & weaknesses generation
-Final feedback creation
-Full ML pipeline integration using FastAPI
-Return final structured evaluation to web backend
-
-Final Output:
-
-{
-"name": "",
-"email": "",
-"score": 84,
-"status": "shortlisted",
-"strengths": [],
-"weaknesses": [],
-"feedback": "",
-"jobTitle": ""
-}
-
-☁ Cloudinary Storage Flow
-
-✅ UI sends CV as multipart/form-data
-✅ ML API stores file in Cloudinary
-✅ Cloudinary returns file URL
-✅ URL stored in MongoDB (CV Collection)
-✅ ML pipeline processes CV via Cloudinary file
-📤 CV Upload & AI Evaluation API
-Endpoint
-POST http://localhost:8000/api/evaluate-cv
-
-Data Sent from Frontend
-Field Type
-cv PDF/DOCX File
-job_id Job MongoDB ID
-job_title Job Title
-jd_text Full Job Description
-email Candidate Email
-🧾 Candidate Database Schema (MongoDB)
-{
-name: String,
-email: String,
-phone: String,
-jobId: ObjectId,
-cvId: ObjectId,
-extractedText: String,
-
-relevanceScore: Number,
-strengths: [String],
-weaknesses: [String],
-feedback: String,
-
-status: "pending" | "reviewed" | "shortlisted" | "rejected"
-}
-✅ These fields will be updated automatically after ML evaluation.
-
-▶ How to Run the Project
-Backend
-cd backend
-npm install
-npm run dev
-
-Frontend
+```bash
 cd frontend
 npm install
 npm run dev
+```
 
-ML API
-cd ml-api
-pip install -r requirements.txt
-uvicorn main:app --reload
+🟢 Backend Setup :
 
-👥 Team Structure
-✅ 1 Full-Stack Web Developer
-Frontend
-Backend
-Database Design
-Authentication & RBAC
-API Integration
+```bash
+cd backend
+npm install
+npm run dev
+```
 
-✅ 2 Machine Learning Engineers
-CV & JD Processing
-Embeddings & Scoring
-LLM Feedback
-ML API & Cloudinary Handling
+🧠 ML Server Setup :
+
+install dependencies first.
+
+Terminal 1 - RAG & Scoring Service
+
+```bash
+cd "RAG and Scoring"
+uvicorn main:app --host 0.0.0.0 --port 8002 --reload
+```
+
+Terminal 2 - ML Evaluation Service
+
+in project root folder,Run
+
+```bash
+    uvicorn ml_service.main:app --host 0.0.0.0 --port 8000 --reload
+```
+
+---
+
+# CVAlign – Multi-Company Resume Screening & Evaluation Platform
+
+CVAlign is a **full-stack, multi-tenant Applicant Tracking System (ATS)** designed to securely manage hiring workflows across multiple companies.
+It enforces **strict company-level data isolation** using **JWT authentication** and **Role-Based Access Control (RBAC)**.
+
+---
+
+## 🚀 Key Features
+
+-   **Multi-company architecture** with strict data isolation
+-   **Role-Based Access Control (RBAC)**: Admin, Recruiter, Hiring Manager
+-   Secure **JWT-based authentication**
+-   Admin-controlled **company & user management**
+-   Job creation and management (company-scoped)
+-   CV upload & candidate evaluation workflow
+-   **ML-powered resume scoring** via FastAPI service
+-   Candidate ranking & status tracking (Pending / Reviewed / Shortlisted / Rejected)
+
+---
+
+## 🏗 Tech Stack
+
+### Frontend
+
+-   React
+-   Vite
+-   Tailwind CSS
+-   Axios
+
+### Backend
+
+-   Node.js
+-   Express.js
+-   MongoDB (Mongoose)
+-   JWT Authentication
+
+### ML Service
+
+-   FastAPI
+-   LangChain
+-   Sentence Transformers
+-   FAISS (vector search)
+-   Python
+
+---
+
+## 🔐 Authentication & Access Model
+
+-   **No public registration**
+-   Users are created **only by Admin**
+-   Each user belongs to a **single company**
+-   Recruiters & Hiring Managers can access **only their company’s data**
+
+---
