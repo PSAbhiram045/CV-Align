@@ -34,18 +34,6 @@ const jobSchema = new mongoose.Schema(
             type: Number,
             default: 0,
         },
-<<<<<<< HEAD
-        // Thresholds for ML-driven status decisions (percent)
-        shortlistThreshold: {
-            type: Number,
-            default: 75,
-        },
-        rejectThreshold: {
-            type: Number,
-            default: 40,
-        },
-=======
->>>>>>> 849ca21 (restore full project with proper package.json file structure)
         status: {
             type: String,
             enum: ["active", "closed", "draft"],
@@ -63,8 +51,4 @@ const jobSchema = new mongoose.Schema(
     }
 );
 
-<<<<<<< HEAD
 export default mongoose.model("Job", jobSchema);
-=======
-export default mongoose.model("Job", jobSchema);
->>>>>>> 849ca21 (restore full project with proper package.json file structure)

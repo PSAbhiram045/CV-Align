@@ -8,19 +8,7 @@ const router = express.Router();
 // Create job
 router.post("/", requireAuth, requireRole(["admin", "hiring_manager"]), async (req, res) => {
     try {
-<<<<<<< HEAD
-        const {
-            title,
-            department,
-            skills,
-            experience,
-            description,
-            shortlistThreshold,
-            rejectThreshold,
-        } = req.body;
-=======
         const { title, department, skills, experience, description } = req.body;
->>>>>>> 849ca21 (restore full project with proper package.json file structure)
 
         const companyId =
             req.user.role === "admin"
@@ -39,12 +27,6 @@ router.post("/", requireAuth, requireRole(["admin", "hiring_manager"]), async (r
             description,
             createdBy: req.user.id || req.user._id,
             companyId,
-<<<<<<< HEAD
-            shortlistThreshold:
-                typeof shortlistThreshold === "number" ? shortlistThreshold : undefined,
-            rejectThreshold: typeof rejectThreshold === "number" ? rejectThreshold : undefined,
-=======
->>>>>>> 849ca21 (restore full project with proper package.json file structure)
         });
 
         await job.save();
@@ -125,8 +107,4 @@ router.delete("/:id", requireAuth, requireRole(["admin"]), async (req, res) => {
     }
 });
 
-<<<<<<< HEAD
 export default router;
-=======
-export default router;
->>>>>>> 849ca21 (restore full project with proper package.json file structure)

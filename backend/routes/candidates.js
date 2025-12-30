@@ -46,18 +46,8 @@ router.get("/", requireAuth, async (req, res) => {
             phone: c.phone,
             score: includeScore ? c.relevanceScore || 0 : null,
             status: c.status,
-<<<<<<< HEAD
-            // Keep friendly fields for the list view
-            uploadDate: c.createdAt?.toISOString().split("T")[0],
-            jobTitle: c.jobId?.title,
-            // ALSO include the raw values the modal expects so opening from
-            // the list doesn't show missing data (createdAt and jobId).
-            createdAt: c.createdAt,
-            jobId: c.jobId,
-=======
             uploadDate: c.createdAt.toISOString().split("T")[0],
             jobTitle: c.jobId?.title,
->>>>>>> 849ca21 (restore full project with proper package.json file structure)
             strengths: c.strengths,
             weaknesses: c.weaknesses,
             feedback: c.feedback,
@@ -168,33 +158,6 @@ router.patch("/:id/evaluate", requireAuth, async (req, res) => {
         candidate.weaknesses = weaknesses ?? candidate.weaknesses;
         candidate.feedback = feedback ?? candidate.feedback;
 
-<<<<<<< HEAD
-        if (typeof relevanceScore === "number" && candidate.status === "pending") {
-            // load job thresholds (fall back to defaults)
-            let shortlistThreshold = 75;
-            let rejectThreshold = 40;
-            try {
-                const job = await Job.findById(candidate.jobId).select(
-                    "shortlistThreshold rejectThreshold"
-                );
-                if (job) {
-                    if (typeof job.shortlistThreshold === "number")
-                        shortlistThreshold = job.shortlistThreshold;
-                    if (typeof job.rejectThreshold === "number")
-                        rejectThreshold = job.rejectThreshold;
-                }
-            } catch (err) {
-                // ignore and use defaults
-            }
-
-            const s = relevanceScore;
-            if (s >= shortlistThreshold) candidate.status = "shortlisted";
-            else if (s < rejectThreshold) candidate.status = "rejected";
-            else candidate.status = "reviewed";
-        }
-
-=======
->>>>>>> 849ca21 (restore full project with proper package.json file structure)
         await candidate.save();
         const includeScore = canViewScore(req.user);
         const response = {
@@ -243,8 +206,4 @@ router.delete("/:id", requireAuth, requireRole(["admin"]), async (req, res) => {
     }
 });
 
-<<<<<<< HEAD
 export default router;
-=======
-export default router;
->>>>>>> 849ca21 (restore full project with proper package.json file structure)
