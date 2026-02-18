@@ -1,0 +1,28 @@
+import cloudinary
+import cloudinary.uploader
+import os
+from dotenv import load_dotenv
+
+load_dotenv()
+
+cloudinary.config(
+    cloud_name=os.getenv("CLOUDINARY_CLOUD_NAME"),
+    api_key=os.getenv("CLOUDINARY_API_KEY"),
+    api_secret=os.getenv("CLOUDINARY_API_SECRET")
+)
+
+def upload_cv(file_path:str)->str:
+  if not os.path.exists(file_path):
+        raise RuntimeError(f"CV file does not exist: {file_path}")
+  try:
+    res=cloudinary.uploader.upload(
+        file_path,
+        resource_type="raw",
+        folder="cvs",
+        access_mode="public"
+    )
+    return res["secure_url"]
+  except Exception as e:
+    raise RuntimeError(f"Cloudinary upload failed: {e}")
+    
+  
