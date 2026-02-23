@@ -1,0 +1,16 @@
+# Python bytecode
+__pycache__/
+*.pyc
+
+# Virtual Environment
+venv/
+env/
+
+# Secrets
+.env
+
+# Frontend / IDE
+node_modules/
+.vscode/
+.next/
+dist/
