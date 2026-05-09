@@ -19,11 +19,7 @@ STRICT RULES:
 4. Each item MUST be a plain string (no key-value objects).
 5. List ALL strengths—there is no maximum limit.
 6. If there are NO strengths, return an empty list.
-
-VALID EXAMPLES:
-- "Python experience aligns with JD requirement"
-- "Knowledge of SQL matches JD requirement"
-- "Docker experience relevant for deployment tasks"
+7. Output MUST contain exactly ONE JSON object and nothing else.
 
 Your response must be VALID JSON ONLY.
 

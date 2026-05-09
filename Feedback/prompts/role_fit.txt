@@ -18,6 +18,8 @@ STRICT RULES:
 3. DO NOT modify or reinterpret the similarity score.
 4. Avoid emotional, marketing-style, or exaggerated language.
 5. Keep the explanation objective and recruiter-like.
+6. Use the provided score as-is and justify it only using explicit JD–CV matches or gaps.
+7. Output MUST contain exactly ONE JSON object and nothing else.
 
 Return your answer in valid JSON ONLY, in this format:
 

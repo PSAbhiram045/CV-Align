@@ -15,12 +15,7 @@ STRICT RULES:
 4. Each weakness must be a short, factual string describing a single missing item.
 5. Return ALL relevant weaknesses—no limit.
 6. If the JD contains NO required or preferred skills, return an empty list.
-
-VALID EXAMPLES:
-- "Missing FastAPI experience"
-- "No AWS or cloud deployment experience"
-- "No CI/CD tools mentioned"
-- "Lacks microservices or distributed systems experience"
+7. Output MUST contain exactly ONE JSON object and nothing else.
 
 Your response MUST be valid JSON ONLY.
 
