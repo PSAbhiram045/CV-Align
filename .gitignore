@@ -26,3 +26,7 @@ Thumbs.db
 
 # uploads / generated files
 backend/uploads/
+.env
+venv/
+__pycache__/
+node_modules/
