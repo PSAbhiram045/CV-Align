@@ -13,7 +13,8 @@ MODEL_NAME = "gemini-2.5-flash"
 
 # 🔴 DIRECT API KEY (LOCAL TESTING ONLY)
 # ❗ Revoke & rotate this key after testing
-GEMINI_API_KEY = "gemini api key"
+# GEMINI_API_KEY = "gemini api key"
+GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
 
 
 # ================================
