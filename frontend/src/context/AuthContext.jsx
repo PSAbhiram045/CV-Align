@@ -65,7 +65,7 @@ export const AuthProvider = ({ children }) => {
     }, [token]);
 
     const login = useCallback(async (email, password) => {
-        const res = await fetch("http://localhost:5000/api/auth/login", {
+        const res = await fetch(/*"http://localhost:5000/api/auth/login"*/fetch(`${import.meta.env.VITE_API_URL}/...`), {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",

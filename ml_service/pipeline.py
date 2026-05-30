@@ -8,7 +8,8 @@ from .cloudinary_utils import upload_cv
 from datetime import date   # ✅ NEW
 
 # RAG scoring service URL
-RAG_SCORE_API = "http://localhost:8002/score"
+# RAG_SCORE_API = "http://localhost:8002/score"
+RAG_SCORE_API = os.getenv("RAG_SCORE_API")
 
 
 def get_rag_score(company_id: str, job_id: str, candidate_id: str) -> float:

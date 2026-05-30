@@ -52,6 +52,13 @@ class ScoreResponse(BaseModel):
 # =========================
 app = FastAPI(title="RAG Score Generation Service")
 
+@app.get("/")
+def health():
+    return {
+        "status": "running",
+        "service": "CVAlign RAG Service"
+    }
+
 
 @app.post("/score", response_model=ScoreResponse)
 def score_candidate(req: ScoreRequest):
