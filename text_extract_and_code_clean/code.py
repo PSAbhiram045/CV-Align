@@ -5,7 +5,10 @@ from groq import Groq
 import json
 
 
-client = Groq(api_key="")
+# client = Groq(api_key="")
+client = Groq(
+    api_key=os.getenv("GROQ_API_KEY")
+)
 
 
 # ---------------------------------------------------

@@ -24,3 +24,5 @@ numpy
 faiss-cpu
 sentence-transformers
 google-genai
+pdfminer.six
+groq
