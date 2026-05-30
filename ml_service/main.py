@@ -41,7 +41,7 @@ def health():
 async def evaluate_cv_api(
     request: Request,
     job_id: str = Form(...),
-    company_id: str = Form(...),
+    company_id: str = Form(""),
     jd_text: str = Form(...),
     job_title: str = Form(""),
     email: str = Form(""),
