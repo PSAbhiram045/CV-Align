@@ -1,6 +1,3 @@
-from text_extract_and_code_clean.code import extract_and_clean_from_file
-from embeddings.embeddings import process_cv_application, process_jd_creation
-from Feedback.feedback_generator import generate_feedback
 from .one_line import normalize_text_one_line
 import uuid
 import requests
@@ -34,6 +31,9 @@ def evaluate(
     jd_text: str,
     cv_file_path: str
 ) -> dict:
+    from text_extract_and_code_clean.code import extract_and_clean_from_file
+    from embeddings.embeddings import process_cv_application, process_jd_creation
+    from Feedback.feedback_generator import generate_feedback
     # upload cv
     cv_url = upload_cv(cv_file_path)
 
