@@ -4,7 +4,7 @@ import uuid
 
 from fastapi import FastAPI, UploadFile, File, Form, HTTPException, Request
 from fastapi.middleware.cors import CORSMiddleware
-from pipeline import evaluate
+from ml_service.pipeline import evaluate
 
 app = FastAPI(title="CV-ALIGN-ML SERVICE MODULE")
 
