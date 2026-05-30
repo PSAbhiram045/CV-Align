@@ -304,7 +304,7 @@ const App = () => {
             formData.append("jd_text", selectedJobObj?.description || ""); // ✅ FULL JD
             formData.append("email", candidateEmail); // ✅ EMAIL
 
-            const response = await fetch(/*"http://localhost:8000/api/evaluate-cv"*/"https://cv-align-ml.onrender.com/api/evaluate-cv", {
+            const response = await fetch(/*"http://localhost:8000/api/evaluate-cv"*/`${import.meta.env.VITE_ML_API_URL}/api/evaluate-cv`, {
                 method: "POST",
                 body: formData,
             });
