@@ -1,3 +1,4 @@
+import os
 from .one_line import normalize_text_one_line
 import uuid
 import requests
@@ -16,7 +17,7 @@ def get_rag_score(company_id: str, job_id: str, candidate_id: str) -> float:
         "candidate_id": candidate_id
     }
 
-    res1 = requests.post(RAG_SCORE_API, json=payload, timeout=15)
+    res1 = requests.post(RAG_SCORE_API, json=payload, timeout=60)
 
     if res1.status_code != 200:
         raise RuntimeError(f"RAG scoring failed: {res1.text}")
