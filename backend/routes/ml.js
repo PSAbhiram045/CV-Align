@@ -54,11 +54,24 @@ router.post(
             formData.append("jd_text", jd_text);
             formData.append("job_title", job.title || "");
             formData.append("email", candidateEmailFromInput || "");
+            formData.append(
+                "company_id",
+                req.user.companyId?.toString() ||
+                job.companyId?.toString()
+            );
 
-            const mlResponse = await axios.post("http://localhost:8000/api/evaluate-cv", {
-                headers: formData.getHeaders(),
-                timeout: 60_000,
-            });
+            // const mlResponse = await axios.post("http://localhost:8000/api/evaluate-cv", {
+            //     headers: formData.getHeaders(),
+            //     timeout: 60_000,
+            // });
+            const mlResponse = await axios.post(
+                `${process.env.ML_API_URL}/api/evaluate-cv`,
+                formData,
+                {
+                    headers: formData.getHeaders(),
+                    timeout: 60000
+                }
+            );
 
             const result = mlResponse.data || {};
 
