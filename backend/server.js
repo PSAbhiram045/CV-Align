@@ -22,7 +22,7 @@ app.use(
   cors({
     origin: [
       "http://localhost:5173",
-      "https://your-app.vercel.app"
+      "https://cv-align-frontend.onrender.com"// "https://your-app.vercel.app"
     ],
     credentials: true
   })
