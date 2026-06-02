@@ -40,12 +40,8 @@ app = FastAPI(title="CV-ALIGN-ML SERVICE MODULE")
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=[
-        "http://localhost:5173",
-        "http://localhost:3000",
-        "https://cv-align-frontend.onrender.com",
-    ],
-    allow_credentials=True,
+    allow_origins=["*"],
+    allow_credentials=False,
     allow_methods=["*"],
     allow_headers=["*"],
 )
