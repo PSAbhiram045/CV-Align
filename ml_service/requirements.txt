@@ -26,3 +26,4 @@ sentence-transformers
 google-genai
 pdfminer.six
 groq
+sqlalchemy

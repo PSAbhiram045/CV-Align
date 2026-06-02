@@ -17,7 +17,7 @@ function createToken(user) {
             companyId: user.companyId ?? null,
         },
         process.env.JWT_SECRET,
-        { expiresIn: "1h" }
+        { expiresIn: "7d" },
     );
 }
 

@@ -1,9 +1,12 @@
-import os
-import requests
-from pdfminer.high_level import extract_text
-import re
-from groq import Groq
 import json
+from groq import Groq
+import re
+from pdfminer.high_level import extract_text
+import requests
+import os
+from dotenv import load_dotenv
+load_dotenv(dotenv_path=os.path.join(
+    os.path.dirname(__file__), '..', 'ml_service', '.env'))
 
 
 # client = Groq(api_key="")
@@ -31,10 +34,6 @@ def download_cv_pdf(url, filename="cv.pdf"):
     return filename
 
 
-
-
-
-
 # ---------------------------------------------------
 # EXTRACT RAW TEXT FROM PDF
 # ---------------------------------------------------
@@ -43,7 +42,6 @@ def extract_pdf(path):
     text = text.replace("\r", "\n")
     text = re.sub(r"\n+", "\n", text)
     return text.strip()
-
 
 
 # ---------------------------------------------------
@@ -129,6 +127,7 @@ RAW RESUME TEXT:
 # ---------------------------------------------------
 # WRAPPER FUNCTION (USED BY ML PIPELINE)
 # ---------------------------------------------------
+
 
 def extract_and_clean_from_file(file_path: str) -> dict:
     """

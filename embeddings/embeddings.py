@@ -24,7 +24,7 @@ os.makedirs(META_DIR, exist_ok=True)
 # Given a company, job, and type (CV/JD), this determines the exact index file and metadata file paths used to store and retrieve that data.
 
 
-def get_paths(company_id: int, job_id: int, data_type: str) -> Tuple[str, str]:
+def get_paths(company_id, job_id, data_type: str) -> Tuple[str, str]:
     """ Build index and metadata paths for a (company, job, type) pair. 
     data_type must be "CV" or "JD". """
     assert data_type in ("CV", "JD")
@@ -66,11 +66,11 @@ def chunk_text(text: str, chunk_size: int = 80, overlap: int = 20, ) -> List[str
     return chunks
 
 
-def make_metadata(company_id: int, job_id: int, data_type: str, text_snippet: str, chunk_id: int = None, ) -> Dict[str, Any]:
+def make_metadata(company_id, job_id, data_type: str, text_snippet: str, chunk_id: int = None, ) -> Dict[str, Any]:
     """Metadata for one embedding."""
     return {
-        "company_id": int(company_id),
-        "job_id": int(job_id),
+        "company_id": company_id if company_id else "default",
+        "job_id": job_id,
         "type": data_type,  # "CV" or "JD"
         "chunk_id": chunk_id,  # None for JD
         "created_at": int(time.time()),

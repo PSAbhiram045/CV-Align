@@ -1,16 +1,29 @@
 # Python bytecode
 __pycache__/
 *.pyc
-
+*.pyo
 # Virtual Environment
 venv/
 env/
 
 # Secrets
 .env
-
+*.env
+backend/.env
+frontend/.env
+ml_service/.env
+.env.local
 # Frontend / IDE
 node_modules/
 .vscode/
 .next/
 dist/
+vector_store/
+applications.db
+"Dict[str"
+"List[float]"
+"List[str]"
+"Tuple[str"
+"np.ndarray"
+
+

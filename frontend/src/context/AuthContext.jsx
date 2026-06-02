@@ -29,9 +29,12 @@ export const AuthProvider = ({ children }) => {
             }
             try {
                 setLoading(true);
-                const res = await fetch(/*"/api/auth/me"*/`${import.meta.env.VITE_API_URL}/api/auth/me`, {
-                    headers: { Authorization: `Bearer ${token}` },
-                });
+                const res = await fetch(
+                    /*"/api/auth/me"*/ `${import.meta.env.VITE_API_URL}/api/auth/me`,
+                    {
+                        headers: { Authorization: `Bearer ${token}` },
+                    },
+                );
 
                 if (!res.ok) {
                     // token invalid or expired
@@ -65,13 +68,16 @@ export const AuthProvider = ({ children }) => {
     }, [token]);
 
     const login = useCallback(async (email, password) => {
-        const res = await fetch(/*"http://localhost:5000/api/auth/login"*/`${import.meta.env.VITE_API_URL}/api/auth/login`, {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
+        const res = await fetch(
+            /*"http://localhost:5000/api/auth/login"*/ `${import.meta.env.VITE_API_URL}/api/auth/login`,
+            {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({ email, password }),
             },
-            body: JSON.stringify({ email, password }),
-        });
+        );
         const data = await res.json().catch(() => ({}));
 
         if (!res.ok) {
@@ -115,7 +121,7 @@ export const AuthProvider = ({ children }) => {
 
             return res;
         },
-        [token, logout]
+        [token, logout],
     );
     useEffect(() => {
         if (token) localStorage.setItem("cvalign_token", token);
@@ -126,7 +132,7 @@ export const AuthProvider = ({ children }) => {
     }, [token, user]);
 
     return (
-        <AuthContext.Provider value={{ user, token, login, logout, setUser }}>
+        <AuthContext.Provider value={{ user, token, login, logout, setUser, loading }}>
             {children}
         </AuthContext.Provider>
     );
