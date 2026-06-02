@@ -123,7 +123,35 @@ Dedicated dashboards and permissions for:
 ```
 
 ---
+# 🌐 Live Demo
 
+Experience CVAlign live:
+
+🚀 **Deployed Application:**
+https://cv-align-frontend.onrender.com
+
+### Demo Credentials
+
+| Role  | Email               | Password   |
+| ----- | ------------------- | ---------- |
+| Admin | `admin@cvalign.com` | `admin123` |
+
+### Quick Access
+
+1. Open the deployed application.
+2. Login using the admin credentials above.
+3. Explore:
+
+   * 📊 Dashboard Analytics
+   * 💼 Job Role Management
+   * 📄 CV Upload & Evaluation
+   * 👥 Candidate Management
+   * 🏢 Company Management
+   * 👤 User Management
+   * 🤖 AI-Powered Candidate Scoring
+
+> **Note:** ⚠️ The frontend is deployed for UI demonstration purposes. AI-powered CV evaluation, vector search, and scoring services require additional compute resources and may not function on the free-tier deployment.
+---
 # 🛠️ Tech Stack
 
 ## 🌐 Frontend
