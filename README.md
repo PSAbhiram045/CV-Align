@@ -150,7 +150,7 @@ https://cv-align-frontend.onrender.com
    * 👤 User Management
    * 🤖 AI-Powered Candidate Scoring
 
-> **Note:** ⚠️ The frontend is deployed for UI demonstration purposes. AI-powered CV evaluation, vector search, and scoring services require additional compute resources and may not function on the free-tier deployment.
+> **Note:** ⚠️ The frontend is deployed for UI demonstration purposes. AI-powered CV evaluation, vector search, and scoring services require additional compute resources and may not function on the free-tier deployment. For the full experience, please follow the local setup instructions below and run the backend and ML services locally.
 ---
 # 🛠️ Tech Stack
 
