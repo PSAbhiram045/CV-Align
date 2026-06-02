@@ -148,7 +148,7 @@ const App = () => {
             setLoading(true);
             const response = await authFetch(`${API_URL}/jobs`);
             const data = await response.json();
-            setJobDescriptions(data);
+            setJobDescriptions(Array.isArray(data) ? data : []);
         } catch (error) {
             console.error("Error fetching jobs:", error);
             showNotification("Failed to fetch jobs", "error");
@@ -161,7 +161,7 @@ const App = () => {
         try {
             const response = await authFetch(`${API_URL}/candidates`);
             const data = await response.json();
-            setCandidates(data);
+            setCandidates(Array.isArray(data) ? data : []);
         } catch (error) {
             console.error("Error fetching candidates:", error);
             showNotification("Failed to fetch candidates", "error");
@@ -303,11 +303,14 @@ const App = () => {
             formData.append("job_title", selectedJobObj?.title); // ✅ TITLE
             formData.append("jd_text", selectedJobObj?.description || ""); // ✅ FULL JD
             formData.append("email", candidateEmail); // ✅ EMAIL
-
-            const response = await fetch(/*"http://localhost:8000/api/evaluate-cv"*/`${import.meta.env.VITE_ML_API_URL}/api/evaluate-cv`, {
-                method: "POST",
-                body: formData,
-            });
+            formData.append("company_id", user?.companyId || "");
+            const response = await fetch(
+                /*"http://localhost:8000/api/evaluate-cv"*/ `${import.meta.env.VITE_ML_API_URL}/api/evaluate-cv`,
+                {
+                    method: "POST",
+                    body: formData,
+                },
+            );
 
             if (!response.ok) throw new Error("ML Evaluation failed");
 
@@ -695,9 +698,37 @@ const App = () => {
                             </div>
                             <div className="info-row">
                                 <strong>Status:</strong>
-                                <span className={`badge ${selectedCandidate.status}`}>
-                                    {selectedCandidate.status}
-                                </span>
+                                <select
+                                    value={selectedCandidate.status}
+                                    onChange={async (e) => {
+                                        const newStatus = e.target.value;
+                                        await authFetch(
+                                            `${API_URL}/candidates/${selectedCandidate._id}/status`,
+                                            {
+                                                method: "PATCH",
+                                                headers: { "Content-Type": "application/json" },
+                                                body: JSON.stringify({ status: newStatus }),
+                                            },
+                                        );
+                                        setSelectedCandidate({
+                                            ...selectedCandidate,
+                                            status: newStatus,
+                                        });
+                                        fetchCandidates();
+                                    }}
+                                    style={{
+                                        background: "#1e293b",
+                                        color: "#fff",
+                                        border: "1px solid #334155",
+                                        borderRadius: 8,
+                                        padding: "4px 8px",
+                                    }}
+                                >
+                                    <option value="pending">Pending</option>
+                                    <option value="reviewed">Reviewed</option>
+                                    <option value="shortlisted">Shortlisted</option>
+                                    <option value="rejected">Rejected</option>
+                                </select>
                             </div>
                             <div className="info-row">
                                 <strong>Upload Date:</strong>
@@ -956,8 +987,8 @@ const App = () => {
                                                         candidate.score >= 90
                                                             ? "high"
                                                             : candidate.score >= 70
-                                                            ? "medium"
-                                                            : "low"
+                                                              ? "medium"
+                                                              : "low"
                                                     }`}
                                                     style={{ width: `${candidate.score}%` }}
                                                 />
@@ -1012,7 +1043,7 @@ const App = () => {
         const avgScore =
             totalCandidates > 0
                 ? Math.round(
-                      candidates.reduce((acc, c) => acc + (c.score || 0), 0) / totalCandidates
+                      candidates.reduce((acc, c) => acc + (c.score || 0), 0) / totalCandidates,
                   )
                 : 0;
 

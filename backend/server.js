@@ -19,17 +19,16 @@ connectDB();
 // Middleware
 // app.use(cors());
 app.use(
-  cors({
-    origin: [
-      "http://localhost:5173",
-      "https://cv-align-frontend.onrender.com"// "https://your-app.vercel.app"
-    ],
-    credentials: true
-  })
+    cors({
+        origin: [
+            "http://localhost:5173",
+            "https://cv-align-frontend.onrender.com", // "https://your-app.vercel.app"
+        ],
+        credentials: true,
+    }),
 );
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
 app.use(express.json({ limit: "10mb" }));
+app.use(express.urlencoded({ extended: true }));
 
 // Static folder for uploads
 app.use("/uploads", express.static("uploads"));
@@ -45,18 +44,6 @@ app.use("/api/admin", adminRoutes);
 // Health check
 app.get("/", (req, res) => {
     res.json({ message: "CVAlign API is running" });
-});
-
-// ML Integration endpoint (for your friends to implement later)
-app.post("/api/ml/evaluate", (req, res) => {
-    // This will be implemented by your ML team
-    // For now, return mock data
-    res.json({
-        score: Math.floor(Math.random() * 30) + 70, // Random score 70-100
-        strengths: ["Strong technical background", "Good communication skills"],
-        weaknesses: ["Limited leadership experience"],
-        feedback: "This is where ML-generated feedback will appear",
-    });
 });
 
 const PORT = process.env.PORT || 5000;

@@ -1,28 +1,33 @@
-import os
+
 from .one_line import normalize_text_one_line
 import uuid
 import requests
 from .cloudinary_utils import upload_cv
 from datetime import date   # ✅ NEW
+import os
+import dotenv
+dotenv.load_dotenv()
+
 
 # RAG scoring service URL
 # RAG_SCORE_API = "http://localhost:8002/score"
-RAG_SCORE_API = os.getenv("RAG_SCORE_API")
+RAG_SCORE_API = os.getenv("RAG_SCORE_API", "http://localhost:8000/score")
 
 
-def get_rag_score(company_id: str, job_id: str, candidate_id: str) -> float:
-    payload = {
-        "company_id": company_id,
-        "job_id": job_id,
-        "candidate_id": candidate_id
-    }
+def get_rag_score(company_id, job_id, candidate_id):
+    import sys
+    import os
+    RAG_DIR = os.path.join(os.path.dirname(os.path.dirname(
+        os.path.abspath(__file__))), "RAG and Scoring")
+    if RAG_DIR not in sys.path:
+        sys.path.insert(0, RAG_DIR)
+    from rag import load_jd_embedding, load_cv_index
+    from score import retrieve_chunks, compute_score
 
-    res1 = requests.post(RAG_SCORE_API, json=payload, timeout=60)
-
-    if res1.status_code != 200:
-        raise RuntimeError(f"RAG scoring failed: {res1.text}")
-
-    return res1.json()["score"]
+    jd_embedding = load_jd_embedding(company_id, job_id)
+    index, _ = load_cv_index(company_id, job_id)
+    cv_vectors = retrieve_chunks(jd_embedding, index)
+    return compute_score(jd_embedding, cv_vectors, k=10)
 
 
 def evaluate(

@@ -24,7 +24,7 @@ router.get("/", requireAuth, async (req, res) => {
 
         if (!req.user || req.user.role !== "admin") {
             if (!req.user?.companyId) {
-                return res.status(403).json({ message: "Missing company scope" });
+                return res.json([]);
             }
             filter.companyId = req.user.companyId;
         } else if (req.query.companyId) {
