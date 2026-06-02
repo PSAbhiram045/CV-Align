@@ -27,6 +27,34 @@ The platform streamlines the hiring workflow by extracting information from resu
 * **2 Machine Learning Engineers**
 
 ---
+# 🌐 Live Demo
+
+Experience CVAlign live:
+
+🚀 **Deployed Application:**
+https://cv-align-frontend.onrender.com
+ **Note:** ⚠️ **Note:** The deployed version of this project currently uses the free-tier API plan, which provides limited resources (512 MB memory). As a result, resume score evaluation may occasionally fail or time out when processing larger resumes or handling high workloads. This is a deployment environment limitation rather than an issue with the application's functionality. Running the project locally or using a higher-tier API plan can help avoid these timeout issues.
+
+### Demo Credentials
+
+| Role  | Email               | Password   |
+| ----- | ------------------- | ---------- |
+| Admin | `admin@cvalign.com` | `admin123` |
+
+### Quick Access
+
+1. Open the deployed application.
+2. Login using the admin credentials above.
+3. Explore:
+
+   * 📊 Dashboard Analytics
+   * 💼 Job Role Management
+   * 📄 CV Upload & Evaluation
+   * 👥 Candidate Management
+   * 🏢 Company Management
+   * 👤 User Management
+   * 🤖 AI-Powered Candidate Scoring 
+> ---
 
 # 🚀 Key Features
 
@@ -122,35 +150,6 @@ Dedicated dashboards and permissions for:
                     └────────────────────┘
 ```
 
----
-# 🌐 Live Demo
-
-Experience CVAlign live:
-
-🚀 **Deployed Application:**
-https://cv-align-frontend.onrender.com
-
-### Demo Credentials
-
-| Role  | Email               | Password   |
-| ----- | ------------------- | ---------- |
-| Admin | `admin@cvalign.com` | `admin123` |
-
-### Quick Access
-
-1. Open the deployed application.
-2. Login using the admin credentials above.
-3. Explore:
-
-   * 📊 Dashboard Analytics
-   * 💼 Job Role Management
-   * 📄 CV Upload & Evaluation
-   * 👥 Candidate Management
-   * 🏢 Company Management
-   * 👤 User Management
-   * 🤖 AI-Powered Candidate Scoring
-
-> **Note:** ⚠️ The frontend is deployed for UI demonstration purposes. AI-powered CV evaluation, vector search, and scoring services require additional compute resources and may not function on the free-tier deployment. For the full experience, please follow the local setup instructions below and run the backend and ML services locally.
 ---
 # 🛠️ Tech Stack
 
