@@ -32,7 +32,7 @@ The platform streamlines the hiring workflow by extracting information from resu
 Experience CVAlign live:
 
 🚀 **Deployed Application:**
-https://cv-align-frontend.onrender.com
+https://cv-align-frontend-44vk.onrender.com/
 
 ⚠️ **Note:** The deployed version of this project currently uses the free-tier API plan, which provides limited resources (512 MB memory). As a result, resume score evaluation may occasionally fail or time out when processing larger resumes or handling high workloads. This is a deployment environment limitation rather than an issue with the application's functionality. Running the project locally or using a higher-tier API plan can help avoid these timeout issues.
 
