@@ -20,10 +20,10 @@ typing-inspection==0.4.2
 typing_extensions==4.15.0
 urllib3==2.6.2
 uvicorn==0.38.0
-numpy
-faiss-cpu
-sentence-transformers
-google-genai
-pdfminer.six
-groq
-sqlalchemy
+numpy==2.3.5
+faiss-cpu==1.13.1
+sentence-transformers==5.2.0
+google-genai==1.73.1
+pdfminer.six==20251107
+groq==0.37.0
+sqlalchemy==2.0.44
