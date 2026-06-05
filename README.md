@@ -23,8 +23,8 @@ The platform streamlines the hiring workflow by extracting information from resu
 
 # 👨‍💻 Team
 
-* **1 Full-Stack Web Developer**
-* **2 Machine Learning Engineers**
+* **Full-Stack Web Developers**
+* **Machine Learning Engineers**
 
 ---
 # 🌐 Live Demo
