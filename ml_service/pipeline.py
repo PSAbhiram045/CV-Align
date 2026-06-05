@@ -78,7 +78,7 @@ def evaluate(
         score=score
     )
 
-    status = "pending" if score >= 70 else "pending"
+    status = "shortlisted" if score >= 70 else "pending"
 
     return {
         "name": cv_data.get("name", ""),

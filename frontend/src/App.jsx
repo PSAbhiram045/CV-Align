@@ -698,37 +698,9 @@ const App = () => {
                             </div>
                             <div className="info-row">
                                 <strong>Status:</strong>
-                                <select
-                                    value={selectedCandidate.status}
-                                    onChange={async (e) => {
-                                        const newStatus = e.target.value;
-                                        await authFetch(
-                                            `${API_URL}/candidates/${selectedCandidate._id}/status`,
-                                            {
-                                                method: "PATCH",
-                                                headers: { "Content-Type": "application/json" },
-                                                body: JSON.stringify({ status: newStatus }),
-                                            },
-                                        );
-                                        setSelectedCandidate({
-                                            ...selectedCandidate,
-                                            status: newStatus,
-                                        });
-                                        fetchCandidates();
-                                    }}
-                                    style={{
-                                        background: "#1e293b",
-                                        color: "#fff",
-                                        border: "1px solid #334155",
-                                        borderRadius: 8,
-                                        padding: "4px 8px",
-                                    }}
-                                >
-                                    <option value="pending">Pending</option>
-                                    <option value="reviewed">Reviewed</option>
-                                    <option value="shortlisted">Shortlisted</option>
-                                    <option value="rejected">Rejected</option>
-                                </select>
+                                <span className={`badge ${selectedCandidate.status}`}>
+                                    {selectedCandidate.status}
+                                </span>
                             </div>
                             <div className="info-row">
                                 <strong>Upload Date:</strong>

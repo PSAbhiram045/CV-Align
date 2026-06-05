@@ -143,19 +143,3 @@ def extract_and_clean_from_file(file_path: str) -> dict:
         raise RuntimeError("Failed to parse CV JSON from LLM")
 
 
-# ---------------------------------------------------
-# MAIN
-# ---------------------------------------------------
-"""if __name__ == "__main__":
-
-    # Manikanta sends THIS link
-    cloudinary_cv_url = "PASTE_MANIKANTA_CLOUDINARY_PDF_LINK_HERE"
-
-    try:
-        pdf_path = download_cv_pdf(cloudinary_cv_url)
-        cv_text = extract_pdf(pdf_path)
-        output_json = extract_and_clean(cv_text)
-        print(output_json)
-
-    except Exception as e:
-        print("ERROR:", e)"""
