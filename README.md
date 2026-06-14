@@ -569,7 +569,6 @@ Open a Pull Request
 
 <div align="center">
 
-### ⭐ If you found this project useful, please consider giving it a star!
 
 Built using React, Node.js, FastAPI, LangChain, FAISS, MongoDB & AI
 
