@@ -67,7 +67,7 @@ async def evaluate_cv_api(
     cv: UploadFile = File(...),
 ):
     form = await request.form()
-    print("🔥 FASTAPI RECEIVED FORM KEYS:", list(form.keys()))
+    print("FASTAPI RECEIVED FORM KEYS:", list(form.keys()))
 
     BASE_DIR = os.path.dirname(os.path.abspath(__file__))
     temp_dir = os.path.join(BASE_DIR, "temp_cvs")
