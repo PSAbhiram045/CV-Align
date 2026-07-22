@@ -3,7 +3,7 @@ from .one_line import normalize_text_one_line
 import uuid
 import requests
 from .cloudinary_utils import upload_cv
-from datetime import date   # ✅ NEW
+from datetime import date   
 import os
 import dotenv
 dotenv.load_dotenv()
@@ -89,7 +89,7 @@ def evaluate(
             or cv_data.get("mobile")
             or ""
         ),
-        "score": score,  # ✅ ADDED
+        "score": score,  
         "status": status,
         "uploadDate": date.today().isoformat(),
         "strengths": feedback_result.get("strengths", []),
