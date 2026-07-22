@@ -78,7 +78,7 @@ async def evaluate_cv_api(
         with open(temp_path, "wb") as f:
             shutil.copyfileobj(cv.file, f)
 
-        print("📄 CV saved at:", temp_path)
+        print("CV saved at:", temp_path)
 
         result = evaluate(
             company_id=company_id,
